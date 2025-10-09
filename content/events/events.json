@@ -4,7 +4,7 @@
       "id": 1,
       "title": "QGIS Kullanıcı Buluşması",
       "description": "Aylık QGIS kullanıcı buluşmalarımızda yeni özellikler, projeler ve deneyimler paylaşılıyor.",
-      "badge": "YAKINMIŞ",
+      "badge": "YAKINDA",
       "date": "2024-11-10",
       "details": [
         {
@@ -13,11 +13,11 @@
         },
         {
           "label": "Saat",
-          "value": "14:00 - 17:00"
+          "value": ""
         },
         {
           "label": "Format",
-          "value": "Online + Hibrit"
+          "value": "Online"
         },
         {
           "label": "Katılım",
@@ -27,14 +27,14 @@
     },
     {
       "id": 2,
-      "title": "PostGIS Atölye Çalışması",
-      "description": "Hands-on PostGIS eğitimi ile mekansal SQL öğrenin ve gerçek projeler üzerinde çalışın.",
+      "title": "CBS Atölye Çalışması",
+      "description": "CBS eğitimi ile mekansal SQL öğrenin ve gerçek projeler üzerinde çalışın.",
       "badge": "WORKSHOP",
       "date": "2024-11-25",
       "details": [
         {
           "label": "Süre",
-          "value": "2 gün"
+          "value": "3 AY"
         },
         {
           "label": "Seviye",
@@ -42,36 +42,11 @@
         },
         {
           "label": "Format",
-          "value": "Uygulamalı atölye"
+          "value": "Uygulamalı Online Atölye"
         },
         {
           "label": "Sertifika",
           "value": "Katılım sertifikası"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "title": "Açık Kaynak CBS Konferansı",
-      "description": "Yıllık konferansımızda ulusal ve uluslararası konuşmacılar en son gelişmeleri paylaşıyor.",
-      "badge": "KONFERANS",
-      "date": "2024-10-15",
-      "details": [
-        {
-          "label": "Tarih",
-          "value": "Sonbahar"
-        },
-        {
-          "label": "Süre",
-          "value": "3 gün"
-        },
-        {
-          "label": "Format",
-          "value": "Hibrit etkinlik"
-        },
-        {
-          "label": "İçerik",
-          "value": "Teknik sunumlar + network"
         }
       ]
     }
