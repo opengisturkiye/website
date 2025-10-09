@@ -1,0 +1,89 @@
+/* QGIS Icon - Green theme with Q logo inspired design */
+.resource-qgis {
+    background: linear-gradient(135deg, #589632, #7FB069);
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(88, 150, 50, 0.3);
+    transition: all 0.3s ease;
+}
+.resource-qgis:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(88, 150, 50, 0.4);
+}
+.resource-qgis::after {
+    content: '';
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background: white;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 C72 10 90 28 90 50 C90 72 72 90 50 90 C28 90 10 72 10 50 C10 28 28 10 50 10 Z M50 20 C33 20 20 33 20 50 C20 67 33 80 50 80 C67 80 80 67 80 50 C80 33 67 20 50 20 Z M45 25 L65 25 L65 35 L55 35 L55 65 L65 65 L65 75 L35 75 L35 65 L45 65 L45 25 Z' fill='white'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+/* PostGIS Icon - Blue/gray theme with elephant and globe */
+.resource-postgresql {
+    background: linear-gradient(135deg, #336791, #4A90A4);
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(51, 103, 145, 0.3);
+    transition: all 0.3s ease;
+}
+.resource-postgresql:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(51, 103, 145, 0.4);
+}
+.resource-postgresql::after {
+    content: '';
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    background: white;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 35 C15 35 12 40 15 50 C18 55 25 58 35 55 L40 60 C35 70 40 75 50 70 C60 75 65 70 60 60 L65 55 C75 58 82 55 85 50 C88 40 85 35 80 35 C70 30 50 30 40 35 C30 30 20 35 20 35 Z M30 45 C32 45 35 47 35 50 C35 53 32 55 30 55 C28 55 25 53 25 50 C25 47 28 45 30 45 Z M70 45 C72 45 75 47 75 50 C75 53 72 55 70 55 C68 55 65 53 65 50 C65 47 68 45 70 45 Z M50 20 C60 20 70 25 75 35 L25 35 C30 25 40 20 50 20 Z' fill='white'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+/* GeoServer Icon - Orange/blue theme with server/globe */
+.resource-geoserver {
+    background: linear-gradient(135deg, #F4A261, #2A9D8F);
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(244, 162, 97, 0.3);
+    transition: all 0.3s ease;
+}
+.resource-geoserver:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(244, 162, 97, 0.4);
+}
+.resource-geoserver::after {
+    content: '';
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    background: white;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M15 20 L85 20 L85 80 L15 80 Z M25 30 L75 30 L75 40 L25 40 Z M25 45 L75 45 L75 55 L25 55 Z M25 60 L75 60 L75 70 L25 70 Z M50 15 C45 10 40 15 45 20 L55 20 C60 15 55 10 50 15 Z M50 85 C60 85 70 80 70 70 L30 70 C30 80 40 85 50 85 Z' fill='white'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
