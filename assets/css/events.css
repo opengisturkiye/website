@@ -1,0 +1,68 @@
+/* Events/Training Section */
+.training {
+    padding: 6rem 3rem;
+    background: var(--light);
+}
+
+.training-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.training-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.training-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+}
+
+.training-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.training-badge {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.training-card h3 {
+    font-size: 1.6rem;
+    color: var(--dark);
+    margin-bottom: 1rem;
+}
+
+.training-card p {
+    color: var(--gray);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.training-details {
+    list-style: none;
+    border-top: 2px solid var(--light);
+    padding-top: 1.5rem;
+}
+
+.training-details li {
+    padding: 0.5rem 0;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+.training-details strong {
+    color: var(--dark);
+}

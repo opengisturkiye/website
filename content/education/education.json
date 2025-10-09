@@ -1,0 +1,64 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "title": "QGIS Eğitim Serisi",
+      "subtitle": "Başlangıçtan uzmanlığa",
+      "icon": "Q",
+      "description": "QGIS'in tüm özelliklerini öğrenin. Temel harita yapımından karmaşık mekansal analizlere, PyQGIS ile otomasyon geliştirmeden eklenti programlamaya kadar kapsamlı eğitim programı.",
+      "modules": [
+        "QGIS temelleri ve veri yönetimi",
+        "Kartografya ve görselleştirme",
+        "Mekansal analiz ve geoprocessing",
+        "PyQGIS ile otomasyon",
+        "Eklenti geliştirme",
+        "Proje yönetimi ve iş akışları"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "PostGIS Veritabanı",
+      "subtitle": "Mekansal SQL uzmanlığı",
+      "icon": "P",
+      "description": "PostgreSQL ve PostGIS ile mekansal veritabanı tasarımından optimizasyona, karmaşık mekansal sorgulardan veri entegrasyonuna kadar derinlemesine öğrenin.",
+      "modules": [
+        "PostgreSQL ve PostGIS kurulumu",
+        "Mekansal veri tipleri ve fonksiyonlar",
+        "Karmaşık mekansal sorgular",
+        "Performans optimizasyonu",
+        "Veri entegrasyonu ve ETL",
+        "Yedekleme ve güvenlik"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "GeoServer Web Servisleri",
+      "subtitle": "OGC standartları",
+      "icon": "G",
+      "description": "Web harita servisleri oluşturun ve yönetin. WMS, WFS, WCS servislerinden REST API kullanımına, stil tasarımından performans optimizasyonuna.",
+      "modules": [
+        "GeoServer kurulum ve yapılandırma",
+        "OGC web servisleri (WMS, WFS, WCS)",
+        "SLD ile stil tasarımı",
+        "Güvenlik ve erişim kontrolü",
+        "Performans ve ölçeklendirme",
+        "REST API ve otomasyon"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Python ile CBS",
+      "subtitle": "Otomasyon ve geliştirme",
+      "icon": "🐍",
+      "description": "Python ile CBS uygulamaları geliştirin. GeoPandas, Shapely, Fiona gibi kütüphanelerle veri işlemeden web uygulamalarına kadar geniş yelpazede projeler.",
+      "modules": [
+        "Python CBS kütüphaneleri",
+        "Veri işleme ve analiz",
+        "Web CBS uygulamaları",
+        "API geliştirme",
+        "Otomasyon ve batch işleme",
+        "Machine Learning ile CBS"
+      ]
+    }
+  ]
+}

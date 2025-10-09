@@ -1,0 +1,79 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "QGIS Kullanıcı Buluşması",
+      "description": "Aylık QGIS kullanıcı buluşmalarımızda yeni özellikler, projeler ve deneyimler paylaşılıyor.",
+      "badge": "YAKINMIŞ",
+      "date": "2024-11-10",
+      "details": [
+        {
+          "label": "Tarih",
+          "value": "Her ayın ikinci cumartesi"
+        },
+        {
+          "label": "Saat",
+          "value": "14:00 - 17:00"
+        },
+        {
+          "label": "Format",
+          "value": "Online + Hibrit"
+        },
+        {
+          "label": "Katılım",
+          "value": "Ücretsiz"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "PostGIS Atölye Çalışması",
+      "description": "Hands-on PostGIS eğitimi ile mekansal SQL öğrenin ve gerçek projeler üzerinde çalışın.",
+      "badge": "WORKSHOP",
+      "date": "2024-11-25",
+      "details": [
+        {
+          "label": "Süre",
+          "value": "2 gün"
+        },
+        {
+          "label": "Seviye",
+          "value": "Başlangıç-Orta"
+        },
+        {
+          "label": "Format",
+          "value": "Uygulamalı atölye"
+        },
+        {
+          "label": "Sertifika",
+          "value": "Katılım sertifikası"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Açık Kaynak CBS Konferansı",
+      "description": "Yıllık konferansımızda ulusal ve uluslararası konuşmacılar en son gelişmeleri paylaşıyor.",
+      "badge": "KONFERANS",
+      "date": "2024-10-15",
+      "details": [
+        {
+          "label": "Tarih",
+          "value": "Sonbahar"
+        },
+        {
+          "label": "Süre",
+          "value": "3 gün"
+        },
+        {
+          "label": "Format",
+          "value": "Hibrit etkinlik"
+        },
+        {
+          "label": "İçerik",
+          "value": "Teknik sunumlar + network"
+        }
+      ]
+    }
+  ]
+}

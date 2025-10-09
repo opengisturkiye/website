@@ -1,0 +1,85 @@
+{
+  "resources": [
+    {
+      "id": 1,
+      "title": "Dökümantasyon",
+      "iconClass": "resource-drive",
+      "description": "Topluluk tarafından hazırlanmış dökümantasyon ve rehberler.",
+      "link": "https://drive.google.com/drive/folders/1wZBwtB9rDacDJTJgQTBhqhQpepdG-Y6Q?usp=sharing",
+      "linkText": "Drive'dan İncele",
+      "category": "documentation"
+    },
+    {
+      "id": 2,
+      "title": "Video Dersler (YouTube)",
+      "iconClass": "resource-youtube",
+      "description": "QGIS, PostGIS ve GeoServer için video eğitimler.",
+      "link": "https://www.youtube.com/@OpenGISTurkiye",
+      "linkText": "YouTube'dan İzle",
+      "category": "video"
+    },
+    {
+      "id": 3,
+      "title": "Kod Önerileri (GitHub)",
+      "iconClass": "resource-github",
+      "description": "Açık kaynak kod örnekleri ve projeler.",
+      "link": "https://github.com/OpenGISTurkiye",
+      "linkText": "GitHub'da İncele",
+      "category": "code"
+    },
+    {
+      "id": 4,
+      "title": "Forum (Discord)",
+      "iconClass": "resource-discord",
+      "description": "Soru-cevap, topluluk sohbeti ve destek.",
+      "link": "https://discord.gg/yZvbDSeH",
+      "linkText": "Discord'a Katıl",
+      "category": "forum"
+    },
+    {
+      "id": 5,
+      "title": "Veri Setleri",
+      "iconClass": "resource-drive",
+      "description": "Eğitim ve test için örnek coğrafi veri setleri.",
+      "link": "https://drive.google.com/drive/folders/1xPYNZRkTGt5E8ZFAKPSHkEz8HUGqD9Kr?usp=sharing",
+      "linkText": "Drive'dan İndir",
+      "category": "data"
+    },
+    {
+      "id": 6,
+      "title": "QGIS",
+      "iconClass": "resource-qgis",
+      "description": "QGIS indirme ve kurulum bağlantıları.",
+      "link": "https://qgis.org/tr/site/forusers/download.html",
+      "linkText": "QGIS İndir",
+      "category": "tools"
+    },
+    {
+      "id": 7,
+      "title": "GeoServer",
+      "iconClass": "resource-geoserver",
+      "description": "GeoServer indirme ve kurulum bağlantısı.",
+      "link": "https://geoserver.org/download/",
+      "linkText": "GeoServer İndir",
+      "category": "tools"
+    },
+    {
+      "id": 8,
+      "title": "PostgreSQL/PostGIS",
+      "iconClass": "resource-postgresql",
+      "description": "PostgreSQL ve PostGIS indirme ve kurulum bağlantısı.",
+      "link": "https://www.postgresql.org/download/",
+      "linkText": "PostgreSQL/PostGIS İndir",
+      "category": "tools"
+    },
+    {
+      "id": 9,
+      "title": "WhatsApp Grubu",
+      "iconClass": "resource-whatsapp",
+      "description": "Mobil grup sohbeti ve duyurular.",
+      "link": "https://chat.whatsapp.com/ERw4FtkT1jg6gUvlUdgbNY?mode=ems_copy_t",
+      "linkText": "WhatsApp Grubuna Katıl",
+      "category": "community"
+    }
+  ]
+}

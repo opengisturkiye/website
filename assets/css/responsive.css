@@ -1,0 +1,55 @@
+/* Responsive Styles */
+@media (max-width: 768px) {
+    nav ul {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .services-grid,
+    .tech-grid,
+    .training-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cta-options {
+        flex-direction: column;
+    }
+
+    nav {
+        padding: 1rem 2rem;
+    }
+
+    .hero {
+        padding: 6rem 2rem 4rem;
+    }
+
+    .main-content {
+        padding: 4rem 2rem 2rem;
+    }
+
+    .technologies,
+    .training,
+    .community {
+        padding: 4rem 2rem;
+    }
+
+    .why-section,
+    .cta-section {
+        padding: 4rem 2rem;
+    }
+
+    footer {
+        padding: 3rem 2rem 1rem;
+    }
+}

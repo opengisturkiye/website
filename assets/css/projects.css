@@ -1,0 +1,60 @@
+/* Projects Section (Why Section) */
+.why-section {
+    background: linear-gradient(135deg, var(--primary-green), var(--turquoise));
+    color: white;
+    padding: 6rem 3rem;
+}
+
+.why-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.why-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.why-intro {
+    font-size: 1.15rem;
+    line-height: 1.9;
+    margin-bottom: 3rem;
+    text-align: center;
+    opacity: 0.95;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.benefit-card {
+    background: rgba(255,255,255,0.1);
+    padding: 2.5rem;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+}
+
+.benefit-card:hover {
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.03);
+}
+
+.benefit-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.benefit-card p {
+    opacity: 0.9;
+    line-height: 1.7;
+}
