@@ -18,9 +18,11 @@ nav {
 }
 
 .logo {
-    display: flex;
-    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #4A6F55;
     text-decoration: none;
+    letter-spacing: -0.5px;
     transition: transform 0.3s ease;
 }
 
@@ -28,9 +30,8 @@ nav {
     transform: scale(1.05);
 }
 
-.logo img {
-    height: 40px;
-    width: auto;
+.logo span {
+    color: #66CDAA;
 }
 
 nav ul {
