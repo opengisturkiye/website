@@ -3,7 +3,7 @@
     {
       "id": 1,
       "title": "Dökümantasyon",
-      "iconClass": "resource-drive",
+      "iconClass": "resource-documentation",
       "description": "Topluluk tarafından hazırlanmış dökümantasyon ve rehberler.",
       "link": "https://drive.google.com/drive/folders/1wZBwtB9rDacDJTJgQTBhqhQpepdG-Y6Q?usp=sharing",
       "linkText": "Drive'dan İncele",
@@ -39,7 +39,7 @@
     {
       "id": 5,
       "title": "Veri Setleri",
-      "iconClass": "resource-drive",
+      "iconClass": "resource-dataset",
       "description": "Eğitim ve test için örnek coğrafi veri setleri.",
       "link": "https://drive.google.com/drive/folders/1xPYNZRkTGt5E8ZFAKPSHkEz8HUGqD9Kr?usp=sharing",
       "linkText": "Drive'dan İndir",
