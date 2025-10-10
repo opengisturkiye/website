@@ -18,11 +18,9 @@ nav {
 }
 
 .logo {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #4A6F55;
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    letter-spacing: -0.5px;
     transition: transform 0.3s ease;
 }
 
@@ -30,8 +28,9 @@ nav {
     transform: scale(1.05);
 }
 
-.logo span {
-    color: #66CDAA;
+.logo img {
+    height: 45px;
+    width: auto;
 }
 
 nav ul {
@@ -50,4 +49,15 @@ nav a {
 
 nav a:hover {
     color: var(--turquoise);
+}
+
+/* Responsive logo sizing */
+@media (max-width: 768px) {
+    .logo img {
+        height: 35px;
+    }
+    
+    nav {
+        padding: 1rem 1.5rem;
+    }
 }
