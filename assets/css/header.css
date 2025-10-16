@@ -30,7 +30,7 @@ nav {
 }
 
 .logo img {
-    height: 40px;
+    height: 60px;
     width: auto;
 }
 
@@ -70,7 +70,7 @@ nav a:hover {
     }
     
     .logo img {
-        height: 32px;
+        height: 48px;
     }
     
     .logo-text {
@@ -89,6 +89,6 @@ nav a:hover {
     }
     
     .logo img {
-        height: 28px;
+        height: 42px;
     }
 }
