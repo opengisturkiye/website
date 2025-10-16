@@ -26,8 +26,34 @@
     <link rel="stylesheet" href="assets/css/icons.css">
     <link rel="stylesheet" href="assets/css/gis-tools.css">
     <link rel="stylesheet" href="assets/css/resource-extras.css">
+    <link rel="stylesheet" href="assets/css/announcement-modal.css">
 </head>
 <body>
+    <!-- Announcement Modal -->
+    <div id="announcementModal" class="announcement-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon">�</div>
+                <h2>Atölye Katılımcıları Açıklandı!</h2>
+                <p>OpenGIS Türkiye İlk Atölye Programı</p>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>40 katılımcımız</strong> belirlendi! Atölye programına katılacak olan <strong>Harita Mühendisliği, Şehir ve Bölge Planlama, Coğrafya</strong> ve diğer ilgili bölümlerden mezun ve öğrencilerimizle birlikte açık kaynak CBS dünyasında heyecan verici bir yolculuğa başlıyoruz.
+                </p>
+                <div class="modal-buttons">
+                    <a href="atolye/katilimcilar.html" class="modal-btn modal-btn-primary">
+                        📋 Katılımcı Listesini Görüntüle
+                    </a>
+                    <button class="modal-btn modal-btn-secondary">
+                        Kapat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <nav>
@@ -400,5 +426,6 @@
 
     <!-- JavaScript Files -->
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/announcement-modal.js"></script>
 </body>
 </html>

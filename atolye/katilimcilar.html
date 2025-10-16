@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atölye Katılımcıları - OpenGIS Türkiye</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="64x64" href="../favicon.png">
+    <meta name="theme-color" content="#4A6F55">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4A6F55 0%, #66CDAA 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: white;
+            color: #4A6F55;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4A6F55;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #66CDAA;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 40px;
+            padding: 12px 24px;
+            background: #4A6F55;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: #66CDAA;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .group {
+            margin-bottom: 40px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #66CDAA;
+        }
+
+        .group-title {
+            font-size: 2rem;
+            color: #4A6F55;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .participant {
+            background: white;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #66CDAA;
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .participant:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 3px solid #4A6F55;
+        }
+
+        .participant-number {
+            font-size: 1.5rem;
+            color: #66CDAA;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .participant-info {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .participant-info {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Atölye Katılımcıları</h1>
+            <p>OpenGIS Türkiye - İlk Atölye Programı (40 Kişi)</p>
+        </header>
+
+        <a href="../index.html" class="back-link">← Ana Sayfaya Dön</a>
+
+        <div class="content">
+            <!-- Grup A -->
+            <div class="group">
+                <h2 class="group-title">Grup A</h2>
+                <div class="participant">
+                    <div class="participant-number">1</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Nihat SOLMAZ</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Yıldız Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">2</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Zeynep Aktürk</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İYTE</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">3</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Doğukan Diker</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Coğrafya</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Ege Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">4</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Derya Bilgili</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İstanbul Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">5</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Gökhan Tokmak</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Bilgisayar Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Yazılım Mühendisliği</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grup B -->
+            <div class="group">
+                <h2 class="group-title">Grup B</h2>
+                <div class="participant">
+                    <div class="participant-number">6</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Selin Tezcan</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Yıldız Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">7</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Yaren Apaydın</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Münih Teknik Üni. / İYTE</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">8</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Büşranur Güvercin</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Konya Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">9</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Elif Özer</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Yönetim Bilişim Sistemleri</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Dokuz Eylül Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">10</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Çağlar Tükel</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Maden Mühendisliği</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Dokuz Eylül Üniversitesi</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grup C -->
+            <div class="group">
+                <h2 class="group-title">Grup C</h2>
+                <div class="participant">
+                    <div class="participant-number">11</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Sümeyye Akcan</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">YTÜ</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">12</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Senanur Torbacı</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Gebze Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">13</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Recep Süzer</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Gebze Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">14</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Ceyda Ebrar AKSOY</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Mimar Sinan Güzel Sanatlar Üni.</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">15</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Caner Gönder</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Coğrafya</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Marmara Üni. / Dicle Üni.</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grup D -->
+            <div class="group">
+                <h2 class="group-title">Grup D</h2>
+                <div class="participant">
+                    <div class="participant-number">16</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Devim Akarer</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İstanbul Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">17</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Efe Kağan Çelik</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İstanbul Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">18</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Araf Öykü Türken</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Kentsel Tasarım</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">YTÜ</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">19</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Deniz Yavuzay</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Dokuz Eylül Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">20</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Zeliha Taş</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Jeoloji Mühendisliği</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Gebze Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grup E -->
+            <div class="group">
+                <h2 class="group-title">Grup E</h2>
+                <div class="participant">
+                    <div class="participant-number">21</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Volkan Bilgin</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Karadeniz Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">22</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Selim Çalılık</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İstanbul Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">23</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Azize Ersin</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Mimar Sinan Güzel Sanatlar Üni.</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">24</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Simge Şahin</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Amasya Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">25</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Nebi Altuntaş</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Bilgisayar Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">KTO Karatay Üniversitesi</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grup F -->
+            <div class="group">
+                <h2 class="group-title">Grup F</h2>
+                <div class="participant">
+                    <div class="participant-number">26</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Göksel Erkan Çetin</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İTÜ</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">27</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">İlktan Gayretoğlu</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Yıldız Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">28</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Rumeysa Bilgin</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Gazi Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">29</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Şule Aksaya</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Dokuz Eylül Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">30</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Sami Haktan Cangut</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">İnşaat Mühendisliği</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Ege Üniversitesi</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grup G -->
+            <div class="group">
+                <h2 class="group-title">Grup G</h2>
+                <div class="participant">
+                    <div class="participant-number">31</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Uğur Çetin Kasap</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Yıldız Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">32</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Nisa Nur Yıldırım</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İstanbul Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">33</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Ahmet Tarık Öztürk</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">ODTÜ</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">34</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Şehnaz Çevik</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Coğrafya</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Ankara Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">35</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Şahadet Arkın</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Peyzaj Mimarlığı</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İnönü Üniversitesi</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grup H -->
+            <div class="group">
+                <h2 class="group-title">Grup H</h2>
+                <div class="participant">
+                    <div class="participant-number">36</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Ayşe Nur Suvay</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Yıldız Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">37</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Halime Dilara Oğuz</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Harita Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Gebze Teknik Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">38</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Taylan Temmuz Halat</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Şehir ve Bölge Planlama</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">Mimar Sinan Güzel Sanatlar Üni.</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">39</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">Güler Erbek</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Peyzaj Mimarlığı</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İnönü Üniversitesi</span></div>
+                    </div>
+                </div>
+                <div class="participant">
+                    <div class="participant-number">40</div>
+                    <div class="participant-info">
+                        <div class="info-item"><span class="info-label">İsim</span><span class="info-value">İrem Doktaş</span></div>
+                        <div class="info-item"><span class="info-label">Bölüm</span><span class="info-value">Bilgisayar Müh.</span></div>
+                        <div class="info-item"><span class="info-label">Üniversite</span><span class="info-value">İstanbul Atlas Üniversitesi</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
