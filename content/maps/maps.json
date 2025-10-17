@@ -1,0 +1,54 @@
+{
+  "maps": [
+    {
+      "id": 1,
+      "title": "İTÜ Ayazağa Kampüsü Mevcut Vaziyet Planı",
+      "description": "İstanbul Teknik Üniversitesi Ayazağa Kampüsü'nün detaylı mevcut vaziyet planı çizimi. Binalar, yeşil alanlar, yollar ve tesisler gösterilmektedir.",
+      "image": "assets/images/maps/itu-campus-plan.jpg",
+      "author": "İrem Alkan",
+      "category": "Kent Analizi",
+      "tools": ["QGIS", "CAD"],
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Trabzon İli Yerleşim Yeri Uygunluk Analizi",
+      "description": "Trabzon ilinin yerleşim yeri uygunluk analizi. Farklı kriterlere göre bölgelerin yerleşime elverişliliği renkli harita ile gösterilmektedir.",
+      "image": "assets/images/maps/trabzon-suitability.jpg",
+      "author": "Oğuzhan Köse",
+      "category": "Kent Analizi",
+      "tools": ["QGIS", "Spatial Analysis"],
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "İzmir İli Yerleşim Yeri Uygunluk Analizi",
+      "description": "İzmir ilinin yerleşim yeri uygunluk analizi. Coğrafi kriterlere göre yerleşim uygunluk değerleri haritalanmıştır.",
+      "image": "assets/images/maps/izmir-suitability.jpg",
+      "author": "Baver Tekin",
+      "category": "Kent Analizi",
+      "tools": ["QGIS", "Multi-Criteria Analysis"],
+      "featured": true
+    },
+    {
+      "id": 4,
+      "title": "Ordu Kent Merkezi Parkların Erişilebilirlik Haritası",
+      "description": "Ordu kent merkezindeki parkların erişilebilirlik analizi. 300m, 600m ve 900m mesafelerdeki erişilebilir alanlar gösterilmektedir.",
+      "image": "assets/images/maps/ordu-parks-accessibility.jpg",
+      "author": "Mesut Güzel",
+      "category": "Kent Analizi",
+      "tools": ["QGIS", "Network Analysis"],
+      "featured": true
+    },
+    {
+      "id": 5,
+      "title": "Denizli-Çardak Havalimanı Çevresi Yer Uygunluk Analizi",
+      "description": "Denizli-Çardak Havalimanı çevresinde yakıt çiftliği ve hidrant hatları için yer uygunluk analiz haritası.",
+      "image": "assets/images/maps/denizli-airport-suitability.jpg",
+      "author": "Tuğçe Tay",
+      "category": "Ulaştırma",
+      "tools": ["QGIS", "Site Selection"],
+      "featured": false
+    }
+  ]
+}

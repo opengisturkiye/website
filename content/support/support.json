@@ -1,0 +1,32 @@
+{
+  "support": {
+    "title": "Topluluğa Katılın",
+    "description": "Açık kaynak CBS topluluğumuzun bir parçası olun. Öğrenin, paylaşın ve birlikte büyüyün.",
+    "options": [
+      {
+        "title": "Üye Kayıt Formu",
+        "description": "Resmi topluluk üyesi olun ve tüm avantajlardan yararlanın",
+        "link": "https://docs.google.com/forms/d/e/1FAIpQLSchQlL3AZOpRK7SaighwJMpr8IyZZ20a3MEWAyG3nzdAfHD2w/viewform?usp=header",
+        "linkText": "Üye Ol"
+      },
+      {
+        "title": "Discord",
+        "description": "Gerçek zamanlı sohbet ve anlık destek",
+        "link": "https://discord.gg/yZvbDSeH",
+        "linkText": "Discord'a Katıl"
+      },
+      {
+        "title": "WhatsApp",
+        "description": "Mobil grup sohbeti ve duyurular",
+        "link": "https://chat.whatsapp.com/ERw4FtkT1jg6gUvlUdgbNY?mode=ems_copy_t",
+        "linkText": "WhatsApp Grubuna Katıl"
+      },
+      {
+        "title": "GitHub",
+        "description": "Açık kaynak projelere katkıda bulunun",
+        "link": "https://github.com/OpenGISTurkiye",
+        "linkText": "GitHub'ı İncele"
+      }
+    ]
+  }
+}

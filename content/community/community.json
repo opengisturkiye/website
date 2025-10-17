@@ -1,0 +1,55 @@
+{
+  "stats": [
+    {
+      "number": "500+",
+      "label": "Topluluk Üyesi"
+    },
+    {
+      "number": "5+",
+      "label": "Eğitim Materyali"
+    },
+    {
+      "number": "8+",
+      "label": "Açık Kaynak Proje"
+    },
+    {
+      "number": "24/7",
+      "label": "Topluluk Desteği"
+    }
+  ],
+  "services": [
+    {
+      "title": "Eğitim ve Dokümantasyon",
+      "description": "Başlangıçtan ileri seviyeye kadar QGIS, PostGIS ve GeoServer eğitim materyalleri. Video dersler, adım adım kılavuzlar ve pratik örnekler ile öğrenin.",
+      "features": [
+        "İnteraktif QGIS dersleri",
+        "PostGIS SQL örnekleri",
+        "GeoServer yapılandırma kılavuzları",
+        "Python ile CBS otomasyonu",
+        "Proje tabanlı öğrenme"
+      ]
+    },
+    {
+      "title": "Açık Kaynak Projeler",
+      "description": "Topluluk tarafından geliştirilen eklentiler, araçlar ve şablonları keşfedin. Kendi projelerinizi paylaşın ve diğer geliştiricilerle işbirliği yapın.",
+      "features": [
+        "QGIS eklenti kütüphanesi",
+        "PostGIS fonksiyon koleksiyonu",
+        "GeoServer stil şablonları",
+        "Python CBS araçları",
+        "Proje katkı rehberleri"
+      ]
+    },
+    {
+      "title": "Topluluk Desteği",
+      "description": "Sorularınızı sorun, deneyimlerinizi paylaşın ve uzman topluluğumuzdan destek alın. Forum, chat ve video konferanslar ile sürekli iletişim halinde kalın.",
+      "features": [
+        "Aktif topluluk forumu",
+        "Gerçek zamanlı chat desteği",
+        "Haftalık online buluşmalar",
+        "Mentorluk programı",
+        "Uzman Q&A oturumları"
+      ]
+    }
+  ]
+}

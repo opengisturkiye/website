@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="assets/css/icons.css?v=1.1">
     <link rel="stylesheet" href="assets/css/gis-tools.css?v=1.1">
     <link rel="stylesheet" href="assets/css/resource-extras.css?v=1.1">
+    <link rel="stylesheet" href="assets/css/maps-gallery.css?v=1.1">
     <link rel="stylesheet" href="assets/css/announcement-modal.css?v=1.1">
 </head>
 <body>
@@ -67,6 +68,7 @@
                 <li><a href="#kaynaklar">Kaynaklar</a></li>
                 <li><a href="#etkinlikler">Etkinlikler</a></li>
                 <li><a href="#projeler">Projeler</a></li>
+                <li><a href="harita-galerisi.html">Harita Galerisi</a></li>
                 <li><a href="#destek">Destek</a></li>
             </ul>
         </nav>
@@ -90,22 +92,7 @@
     <!-- Stats Section -->
     <section class="stats">
         <div class="stats-grid">
-            <div class="stat-item">
-                <h3>500+</h3>
-                <p>Topluluk Üyesi</p>
-            </div>
-            <div class="stat-item">
-                <h3>5+</h3>
-                <p>Eğitim Materyali</p>
-            </div>
-            <div class="stat-item">
-                <h3>8+</h3>
-                <p>Açık Kaynak Proje</p>
-            </div>
-            <div class="stat-item">
-                <h3>24/7</h3>
-                <p>Topluluk Desteği</p>
-            </div>
+            <!-- Content will be loaded dynamically from community.json -->
         </div>
     </section>
 
@@ -115,41 +102,7 @@
         <p class="section-subtitle">Açık kaynak CBS teknolojilerini öğrenmek ve geliştirmek için ihtiyacınız olan her şey</p>
 
         <div class="services-grid">
-            <div class="service-card">
-                <h3>Eğitim ve Dokümantasyon</h3>
-                <p>Başlangıçtan ileri seviyeye kadar QGIS, PostGIS ve GeoServer eğitim materyalleri. Video dersler, adım adım kılavuzlar ve pratik örnekler ile öğrenin.</p>
-                <ul class="service-features">
-                    <li>İnteraktif QGIS dersleri</li>
-                    <li>PostGIS SQL örnekleri</li>
-                    <li>GeoServer yapılandırma kılavuzları</li>
-                    <li>Python ile CBS otomasyonu</li>
-                    <li>Proje tabanlı öğrenme</li>
-                </ul>
-            </div>
-
-            <div class="service-card">
-                <h3>Açık Kaynak Projeler</h3>
-                <p>Topluluk tarafından geliştirilen eklentiler, araçlar ve şablonları keşfedin. Kendi projelerinizi paylaşın ve diğer geliştiricilerle işbirliği yapın.</p>
-                <ul class="service-features">
-                    <li>QGIS eklenti kütüphanesi</li>
-                    <li>PostGIS fonksiyon koleksiyonu</li>
-                    <li>GeoServer stil şablonları</li>
-                    <li>Python CBS araçları</li>
-                    <li>Proje katkı rehberleri</li>
-                </ul>
-            </div>
-
-            <div class="service-card">
-                <h3>Topluluk Desteği</h3>
-                <p>Sorularınızı sorun, deneyimlerinizi paylaşın ve uzman topluluğumuzdan destek alın. Forum, chat ve video konferanslar ile sürekli iletişim halinde kalın.</p>
-                <ul class="service-features">
-                    <li>Aktif topluluk forumu</li>
-                    <li>Gerçek zamanlı chat desteği</li>
-                    <li>Haftalık online buluşmalar</li>
-                    <li>Mentorluk programı</li>
-                    <li>Uzman Q&A oturumları</li>
-                </ul>
-            </div>
+            <!-- Content will be loaded dynamically from community.json -->
         </div>
     </section>
 
@@ -288,75 +241,35 @@
             <p class="section-subtitle">Topluluk buluşmaları, eğitimler ve konferanslar</p>
 
             <div class="training-grid">
-                <div class="training-card">
-                    <div class="training-badge">YAKINMIŞ</div>
-                    <h3>QGIS Kullanıcı Buluşması</h3>
-                    <p>Aylık QGIS kullanıcı buluşmalarımızda yeni özellikler, projeler ve deneyimler paylaşılıyor.</p>
-                    <ul class="training-details">
-                        <li><strong>Tarih:</strong> Her ayın ikinci cumartesi</li>
-                        <li><strong>Saat:</strong> 14:00 - 17:00</li>
-                        <li><strong>Format:</strong> Online + Hibrit</li>
-                        <li><strong>Katılım:</strong> Ücretsiz</li>
-                    </ul>
-                </div>
-
-                <div class="training-card">
-                    <div class="training-badge">WORKSHOP</div>
-                    <h3>PostGIS Atölye Çalışması</h3>
-                    <p>Hands-on PostGIS eğitimi ile mekansal SQL öğrenin ve gerçek projeler üzerinde çalışın.</p>
-                    <ul class="training-details">
-                        <li><strong>Süre:</strong> 2 gün</li>
-                        <li><strong>Seviye:</strong> Başlangıç-Orta</li>
-                        <li><strong>Format:</strong> Uygulamalı atölye</li>
-                        <li><strong>Sertifika:</strong> Katılım sertifikası</li>
-                    </ul>
-                </div>
-
-                <div class="training-card">
-                    <div class="training-badge">KONFERANS</div>
-                    <h3>Açık Kaynak CBS Konferansı</h3>
-                    <p>Yıllık konferansımızda ulusal ve uluslararası konuşmacılar en son gelişmeleri paylaşıyor.</p>
-                    <ul class="training-details">
-                        <li><strong>Tarih:</strong> Sonbahar</li>
-                        <li><strong>Süre:</strong> 3 gün</li>
-                        <li><strong>Format:</strong> Hibrit etkinlik</li>
-                        <li><strong>İçerik:</strong> Teknik sunumlar + network</li>
-                    </ul>
-                </div>
+                <!-- Content will be loaded dynamically from events.json -->
             </div>
         </div>
     </section>
 
     <!-- Support Section -->
     <section class="cta-section" id="destek">
-        <h2>Topluluğa Katılın</h2>
-        <p>
-            Açık kaynak CBS topluluğumuzun bir parçası olun. Öğrenin, paylaşın ve birlikte büyüyün.
-        </p>
+        <div class="support-content">
+            <!-- Content will be loaded dynamically from support.json -->
+        </div>
+    </section>
 
-        <div class="cta-options">
-            <div class="cta-option">
-                <h4>Üye Kayıt Formu</h4>
-                <p>Resmi topluluk üyesi olun ve tüm avantajlardan yararlanın</p>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSchQlL3AZOpRK7SaighwJMpr8IyZZ20a3MEWAyG3nzdAfHD2w/viewform?usp=header" target="_blank" class="btn-primary">Üye Ol</a>
+    <!-- Maps Showcase Section -->
+    <section class="maps-showcase" id="harita-galerisi">
+        <div class="maps-container">
+            <h2 class="section-title">Harita Galerisi</h2>
+            <p class="section-subtitle">Topluluk üyelerimizin yaratıcılığını sergileyen haritalar ve CBS projeleri</p>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; color: #2c3e50; font-size: 1.05rem; line-height: 1.8; font-weight: 500;">
+                QGIS, PostGIS, GeoServer ve diğer açık kaynak CBS araçlarıyla oluşturulan etkileyici haritalar. Her harita, farklı bir hikaye anlatıyor ve CBS'nin gücünü gösteriyor.
+            </p>
+
+            <div class="maps-grid">
+                <!-- Content will be loaded dynamically from maps.json -->
             </div>
 
-            <div class="cta-option">
-                <h4>Discord</h4>
-                <p>Gerçek zamanlı sohbet ve anlık destek</p>
-                <a href="https://discord.gg/yZvbDSeH" target="_blank" class="btn-primary">Discord'a Katıl</a>
-            </div>
-
-            <div class="cta-option">
-                <h4>WhatsApp</h4>
-                <p>Mobil grup sohbeti ve duyurular</p>
-                <a href="https://chat.whatsapp.com/ERw4FtkT1jg6gUvlUdgbNY?mode=ems_copy_t" target="_blank" class="btn-primary">WhatsApp Grubuna Katıl</a>
-            </div>
-
-            <div class="cta-option">
-                <h4>GitHub</h4>
-                <p>Açık kaynak projelere katkıda bulunun</p>
-                <a href="https://github.com/OpenGISTurkiye" target="_blank" class="btn-primary">GitHub'ı İncele</a>
+            <div class="maps-more" style="text-align: center; margin-top: 2rem;">
+                <a href="harita-galerisi.html" class="btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 5px; text-decoration: none;">
+                    Daha Fazla Harita Görüntüle →
+                </a>
             </div>
         </div>
     </section>
