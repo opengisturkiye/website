@@ -31,6 +31,7 @@
       "description": "CBS eğitimi ile mekansal SQL öğrenin ve gerçek projeler üzerinde çalışın.",
       "badge": "WORKSHOP",
       "date": "2024-11-25",
+      "hasParticipantList": true,
       "details": [
         {
           "label": "Süre",

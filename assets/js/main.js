@@ -62,9 +62,17 @@ class ContentManager {
                 <ul class="training-details">
                     ${event.details.map(detail => `<li><strong>${detail.label}:</strong> ${detail.value}</li>`).join('')}
                 </ul>
+                ${event.hasParticipantList ? `
+                    <div class="event-button-container" style="text-align: center; margin-top: 1rem;">
+                        <a href="atolye/katilimcilar.html" class="btn-primary" style="padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-size: 0.9rem;">
+                            Katılımcı Listesi
+                        </a>
+                    </div>
+                ` : ''}
             </div>
         `).join('');
     }
+
 
     renderEducation() {
         const educationContainer = document.querySelector('#egitim .tech-grid');
