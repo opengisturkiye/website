@@ -30,7 +30,7 @@
       "title": "CBS Atölye Çalışması",
       "description": "CBS eğitimi ile mekansal SQL öğrenin ve gerçek projeler üzerinde çalışın.",
       "badge": "WORKSHOP",
-      "date": "Duyurulacak",
+      "date": "Duyurulacaktır",
       "hasParticipantList": true,
       "details": [
         {
@@ -51,10 +51,11 @@
         },
         {
           "label": "Tarih",
-          "value": "2025-10-29"
+          "value": "Duyurulacaktır"
         }
       ]
     }
   ]
 
 }
+
