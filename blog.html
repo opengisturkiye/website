@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - OpenGIS Türkiye</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <meta name="theme-color" content="#2d6a4f">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/variables.css?v=1.1">
+    <link rel="stylesheet" href="assets/css/header.css?v=1.1">
+    <link rel="stylesheet" href="assets/css/footer.css?v=1.1">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=1.1">
+    <link rel="stylesheet" href="assets/css/icons.css?v=1.1">
+    <link rel="stylesheet" href="assets/css/blog.css?v=1.0">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="assets/images/ogt.png" alt="OpenGIS Türkiye">
+                <span class="logo-text">OpenGIS<span class="logo-sub"> Türkiye</span></span>
+            </a>
+            <ul>
+                <li><a href="index.html#topluluk">Topluluk</a></li>
+                <li><a href="index.html#egitim">Eğitim</a></li>
+                <li><a href="index.html#kaynaklar">Kaynaklar</a></li>
+                <li><a href="index.html#etkinlikler">Etkinlikler</a></li>
+                <li><a href="index.html#projeler">Projeler</a></li>
+                <li><a href="harita-galerisi.html">Harita Galerisi</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="index.html#destek">Destek</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Blog Hero -->
+    <section class="blog-hero">
+        <div class="blog-hero-content">
+            <p class="hero-kicker">OpenGIS Türkiye Blogu</p>
+            <h1>Açık kaynak CBS dünyasından ilham veren hikâyeler</h1>
+            <p class="hero-lead">QGIS ipuçları, mekansal veri analizleri, topluluk etkinlikleri ve kariyer yolculukları. Açık kaynak CBS ekosistemini birlikte büyütüyoruz.</p>
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-title">Topluluk Sesleri</span>
+                    <span class="meta-detail">Deneyim paylaşımları</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-title">Teknik Rehberler</span>
+                    <span class="meta-detail">Adım adım anlatımlar</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-title">Harita Tasarımı</span>
+                    <span class="meta-detail">Kartografya önerileri</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="blog-main">
+        <div class="blog-container">
+
+            <section class="featured-post">
+                <div class="featured-media">
+                    <img src="assets/images/ogt.jpg" alt="Koordinat referans sistemi diyagramı">
+                </div>
+                <div class="featured-content">
+                    <span class="badge">Öne Çıkan Yazı</span>
+                    <h2>Koordinat Referans Sistemleri: Datalarımız aynı dili nasıl konuşur?</h2>
+                    <p>CRS kavramlarını anlaşılır görsellerle parçalara ayıran etkileşimli rehber; datum, projeksiyon ve dönüşüm adımlarını sahada kullanabileceğiniz ipuçlarıyla aktarıyor.</p>
+                    <ul>
+                        <li>Koordinat &amp; projeksiyon farkını görsel animasyonlarla pekiştirin</li>
+                        <li>Datum, EPSG/SRID ve dönüşüm stratejilerini özet tablolarla öğrenin</li>
+                        <li>UTM zon seçimi ve sandbox ile pratik dönüşümler deneyin</li>
+                    </ul>
+                    <a href="blog/koordinat-referans-sistemleri/" class="btn-primary">Yazıyı Oku</a>
+                </div>
+            </section>
+
+            <section class="recent-posts">
+                <div class="section-heading">
+                    <div>
+                        <h2>En Son Yayınlananlar</h2>
+                        <p>Güncel gelişmeleri ve topluluk deneyimlerini takip edin.</p>
+                    </div>
+                    <a href="#" class="link-more">Tüm yazıları görüntüle</a>
+                </div>
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="card-visual pattern-qgis"></div>
+                        <div class="card-content">
+                            <div class="card-meta">
+                                <span class="category">Koordinat Sistemleri</span>
+                                <span class="date">Kasım 2025</span>
+                            </div>
+                            <h3>Koordinat Referans Sistemleri Rehberi</h3>
+                            <p>Datum, projeksiyon, EPSG ve dönüşüm mantığını etkileşimli animasyonlarla açıklayan kapsamlı rehber.</p>
+                            <a href="blog/koordinat-referans-sistemleri/" class="card-link">Devamını Oku</a>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="card-visual pattern-postgis"></div>
+                        <div class="card-content">
+                            <div class="card-meta">
+                                <span class="category">PostGIS</span>
+                                <span class="date">Ekim 2025</span>
+                            </div>
+                            <h3>PostGIS Raster İçeri Aktarma Rehberi</h3>
+                            <p>Raster2pgsql, Python ve QGIS yöntemlerini hız, otomasyon ve kullanım kolaylığı açısından karşılaştırın.</p>
+                            <a href="blog/postgis-raster-iceri-aktarma-rehberi/" class="card-link">Devamını Oku</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="newsletter">
+                <div class="newsletter-content">
+                    <h2>Aylık bültene katılın</h2>
+                    <p>Yeni blog yazıları, atölye duyuruları ve kaynak güncellemeleri e-posta kutunuza gelsin.</p>
+                </div>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="E-posta adresiniz" aria-label="E-posta adresiniz">
+                    <button type="submit">Abone Ol</button>
+                </form>
+                <p class="newsletter-note">Abonelik formu yakında aktif olacak. Şimdilik topluluk kanallarımızdan bizi takip edebilirsiniz.</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Açık Kaynak CBS Topluluğu</h3>
+                <p>Türkiye'nin en büyük açık kaynak CBS kullanıcıları topluluğu. QGIS, PostGIS, GeoServer ve diğer açık kaynak teknolojileri öğrenin ve paylaşın.</p>
+                <p>Bu topluluk tamamen gönüllü katkılarla yürütülmektedir.</p>
+                <div class="contact-info">
+                    <a href="mailto:opengisturkiye@gmail.com">📧 opengisturkiye@gmail.com</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="index.html#topluluk">Topluluk</a></li>
+                    <li><a href="index.html#egitim">Eğitim</a></li>
+                    <li><a href="index.html#kaynaklar">Kaynaklar</a></li>
+                    <li><a href="index.html#etkinlikler">Etkinlikler</a></li>
+                    <li><a href="index.html#projeler">Projeler</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Kaynaklar</h3>
+                <ul>
+                    <li><a href="https://qgis.org" target="_blank">QGIS.org</a></li>
+                    <li><a href="https://postgis.net" target="_blank">PostGIS.net</a></li>
+                    <li><a href="https://geoserver.org" target="_blank">GeoServer.org</a></li>
+                    <li><a href="https://osgeo.org" target="_blank">OSGeo.org</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Sosyal Medya & İletişim</h3>
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@OpenGISTurkiye" target="_blank" class="social-link youtube">
+                        YouTube
+                    </a>
+                    <a href="https://github.com/OpenGISTurkiye" target="_blank" class="social-link github">
+                        GitHub
+                    </a>
+                    <a href="http://linkedin.com/company/OpenGISTurkiye" target="_blank" class="social-link linkedin">
+                        LinkedIn
+                    </a>
+                    <a href="https://x.com/OpenGISTurkiye" target="_blank" class="social-link twitter">
+                        X (Twitter)
+                    </a>
+                    <a href="https://discord.gg/yZvbDSeH" target="_blank" class="social-link discord">
+                        Discord
+                    </a>
+                    <a href="https://chat.whatsapp.com/ERw4FtkT1jg6gUvlUdgbNY?mode=ems_copy_t" target="_blank" class="social-link whatsapp">
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Açık Kaynak CBS Kullanıcıları Topluluğu. Bu proje Creative Commons lisansı altındadır.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="assets/js/main.js?v=1.1"></script>
+</body>
+</html>

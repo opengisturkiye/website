@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostGIS Raster İçeri Aktarma Rehberi</title>
+    <meta name="description" content="PostGIS'e raster veri yüklemek için raster2pgsql, Python ve QGIS tabanlı üç yaklaşımı karşılaştırmalı olarak inceleyin.">
+    <link rel="icon" type="image/png" sizes="64x64" href="../../favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../favicon.png">
+    <meta name="theme-color" content="#2d6a4f">
+    <link rel="stylesheet" href="../../assets/css/variables.css?v=1.1">
+    <link rel="stylesheet" href="../../assets/css/header.css?v=1.1">
+    <link rel="stylesheet" href="../../assets/css/footer.css?v=1.1">
+    <link rel="stylesheet" href="../../assets/css/responsive.css?v=1.1">
+    <link rel="stylesheet" href="../../assets/css/icons.css?v=1.1">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav>
+            <a href="../../index.html" class="logo">
+                <img src="../../assets/images/ogt.png" alt="OpenGIS Türkiye">
+                <span class="logo-text">OpenGIS<span class="logo-sub"> Türkiye</span></span>
+            </a>
+            <ul>
+                <li><a href="../../index.html#topluluk">Topluluk</a></li>
+                <li><a href="../../index.html#egitim">Eğitim</a></li>
+                <li><a href="../../index.html#kaynaklar">Kaynaklar</a></li>
+                <li><a href="../../index.html#etkinlikler">Etkinlikler</a></li>
+                <li><a href="../../index.html#projeler">Projeler</a></li>
+                <li><a href="../../harita-galerisi.html">Harita Galerisi</a></li>
+                <li><a href="../../blog.html" class="active">Blog</a></li>
+                <li><a href="../../index.html#destek">Destek</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="post-container">
+        <div class="post-grid">
+            <article class="post-article">
+                <header class="hero-section">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <span class="post-category">PostGIS</span>
+                        <h1>PostGIS Raster İçeri Aktarma Rehberi: 3 Yöntem (CLI/Python/QGIS)</h1>
+                        <p class="post-lead">Raster verileri PostGIS'e almanın üç farklı yolunu (raster2pgsql, Python ve QGIS) karşılaştırıyor; hız, otomasyon ve kullanıcı dostu arayüz arasında nasıl seçim yapacağınızı gösteriyoruz.</p>
+                    </div>
+                </header>
+
+                <div class="post-content">
+                    <section class="post-section">
+                        <h2>Rasterı neden PostGIS'e alıyoruz?</h2>
+                        <ul>
+                            <li><strong>Sunucu taraflı analiz</strong> (ST_SummaryStats, reclass, kesişimler)</li>
+                            <li><strong>Harita servislerine tek kaynaktan veri</strong></li>
+                            <li><strong>Veri yönetimi, yedekleme, erişim denetimi</strong></li>
+                        </ul>
+                    </section>
+
+                    <section class="post-section">
+                        <h2>Hangi yolu seçmeli?</h2>
+                        <ul>
+                            <li><strong>En hızlı/standart:</strong> raster2pgsql (CLI)</li>
+                            <li><strong>En esnek/otomasyona uygun:</strong> Python (rasterio + psycopg)</li>
+                            <li><strong>GUI ile pratik:</strong> QGIS</li>
+                        </ul>
+                        <p class="dataset-callout"><strong>Örnek Veri:</strong> <code>alos4326.tif</code> · <strong>Hedef database / tablo:</strong> <code>gisdb / public.alos</code> (kendi yolunu/tablonu değiştir)</p>
+                    </section>
+
+                    <section class="post-section">
+                        <h2>Yöntem 1 — raster2pgsql (CLI)</h2>
+                        
+                        <h3>Ne yapar?</h3>
+                        <p>Veriyi pipe ile doğrudan psql'nin standart girdisine yönlendiriyoruz. psql, standart girdiden (STDIN) komut alabilir.</p>
+                        <p>GeoTIFF (ve diğer GDAL formatları) → SQL üretir → PostGIS'e döşemeli (tile) raster tablosu olarak yazar; indeks/kısıt/overview oluşturabilir.</p>
+
+                        <h3>Örnek (Windows)</h3>
+                        <div class="code-block">
+<pre><code>raster2pgsql -s 4326 -I -C -M -t 256x256 -l 2,4,8 "C:\Users\Desktop\gisData\alos4326.tif" public.alos | psql -h localhost -p 5432 -U postgres -d gisdb</code></pre>
+                        </div>
+
+                        <h3>Örnek (Linux/macOS)</h3>
+                        <div class="code-block">
+<pre><code>raster2pgsql -s 4326 -I -C -M -t 256x256 -l 2,4,8 "/home/gisData/alos4326.tif" public.alos | psql -h localhost -p 5432 -U postgres -d gisdb</code></pre>
+                        </div>
+
+                        <h3>Komut Parametreleri</h3>
+                        <ul class="param-list">
+                            <li><code>-s</code> — SRID ata/denetle : Çıkış rasterına SRID atar. Kaynakta SRID varsa çoğu kez algılanır; yine de yanılma riskine karşı açıkça verilebilir.</li>
+                            <li><code>-t</code> — Tile : Rasterı parçalara (tile) böler; satır başına bir karolu raster kaydı üretilir. WIDTHxHEIGHT biçimindedir; Büyük veride okuma/çizim performansını ciddi artırır. 128–256 px yaygın tercihlerdir. Çok büyük karolarda okuma maliyeti artar; aşırı küçükte satır sayısı şişer.</li>
+                            <li><code>-I</code> — GiST mekânsal indeks: Raster sütunu için GiST indeks oluşturur (uygulamada ST_ConvexHull(rast) temellidir); mekânsal sorgularda hız kazandırır.</li>
+                            <li><code>-C</code> — Constraints / Kısıtlar : Tabloya CHECK kısıtları yazar (SRID, piksel boyutu, blocksize, bant tipi vb.) ve raster_columns/raster_overviews kataloglarında düzgün görünmesini sağlar.</li>
+                            <li><code>-M</code> — Yükleme sonrası VACUUM ANALYZE : Yükleme bitince tabloya VACUUM ANALYZE çalıştırır; sorgu planlayıcısı için istatistik üretir. Büyük yüklemeler sonrası performansa doğrudan katkı sağlar.</li>
+                            <li><code>-l 2,4,8</code> — Overview tabloları : 2×, 4×, 8× ölçekli overview'ler üretir; düşük zoom'larda görüntülemeyi hızlandırır. Sonradan da ST_CreateOverview ile üretilebilir; raster_overviews kataloğuna kaydedilir.</li>
+                        </ul>
+                    </section>
+
+                    <section class="post-section">
+                        <h2>Yöntem 2 — Python</h2>
+                        <p><strong>Gerekli kütüphaneler:</strong> rasterio, psycopg (opsiyonel: python-dotenv)</p>
+
+                        <h3>Ne yapar?</h3>
+                        <p>GeoTIFF'i bayt olarak oku → ST_FromGDALRaster(bytea) ile PostGIS tarafında raster'a çevir → SRID/indeks/kısıtları uygula. (Tek tablo / tek sütun rast)</p>
+
+                        <h3>Akış</h3>
+                        <ol>
+                            <li>GeoTIFF'i aç</li>
+                            <li>Metadata/SRID al</li>
+                            <li>Band verisini (aslında tüm TIFF baytlarını) oku</li>
+                            <li>Uygun biçime getir (bytea)</li>
+                            <li>PostGIS'e yaz (INSERT ... ST_FromGDALRaster(%s))</li>
+                            <li>İndeks/kısıt ekle (GiST, AddRasterConstraints)</li>
+                        </ol>
+
+                        <h3>Parça 1 — Kütüphaneler ve yapılandırma</h3>
+                        <p><em>Ne yapıyoruz?</em> Ortam değişkenlerinden bağlantı alıyoruz; dosya yolunu/tabloları tek yerden yönetiyoruz.</p>
+                        <div class="code-block">
+<pre><code>import os, psycopg, rasterio
+from dotenv import load_dotenv
+load_dotenv()
+
+# (kendi veritabanına uyarla)
+PG_HOST=os.getenv("PGHOST","localhost"); PG_PORT=os.getenv("PGPORT","5432")
+PG_DB=os.getenv("PGDATABASE","gisdb");   PG_USER=os.getenv("PGUSER","postgres")
+PG_PASS=os.getenv("PGPASSWORD");         PG_SCHEMA=os.getenv("PGSCHEMA","public")
+
+SRC_PATH=r"C:\Users\Desktop\gisData\alos4326.tif"  # (kendi yolunu ver)
+TABLE="alos_simple"; RAST_COL="rast"</code></pre>
+                        </div>
+
+                        <h3>Parça 2 — GeoTIFF'i oku, SRID'i tespit et</h3>
+                        <p><em>Ne yapıyoruz?</em> Dosyayı bayt olarak alıyoruz; rasterio ile CRS→EPSG çözüyoruz. Neden? ST_FromGDALRaster bytea ister; SRID set'i gerekebilir.</p>
+                        <div class="code-block">
+<pre><code>with open(SRC_PATH, "rb") as f:
+    tif_bytes = f.read()
+with rasterio.open(SRC_PATH) as src:
+    srid = src.crs.to_epsg() if src.crs else None</code></pre>
+                        </div>
+
+                        <h3>Parça 3 — Bağlantı ve raster tipi kontrolü</h3>
+                        <p><em>Ne yapıyoruz?</em> postgis_raster etkin mi bakıyoruz. Neden? Erken ve anlamlı hata için.</p>
+                        <div class="code-block">
+<pre><code>conn_str=f"host={PG_HOST} port={PG_PORT} dbname={PG_DB} user={PG_USER} password={PG_PASS}"
+with psycopg.connect(conn_str) as conn:
+    has_raster = conn.execute(
+        "SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname='raster');"
+    ).fetchone()[0]
+    if not has_raster:
+        raise RuntimeError("postgis_raster etkin değil.")
+
+    conn.execute(f"SET search_path TO {PG_SCHEMA}, public, pg_catalog;")</code></pre>
+                        </div>
+
+                        <h3>Parça 4 — Tabloyu oluştur ve veriyi yaz</h3>
+                        <p><em>Ne yapıyoruz?</em> Raster sütunu olan tabloyu açıyoruz; bytea → raster dönüşümünü DB'de yapıyoruz.</p>
+                        <div class="code-block">
+<pre><code>conn.execute(f"""
+        CREATE TABLE IF NOT EXISTS {PG_SCHEMA}.{TABLE}(
+            id bigserial PRIMARY KEY,
+            {RAST_COL} raster
+        );
+    """)
+    conn.execute(
+        f"INSERT INTO {PG_SCHEMA}.{TABLE}({RAST_COL}) VALUES (ST_FromGDALRaster(%s));",
+        (psycopg.Binary(tif_bytes),)
+    )</code></pre>
+                        </div>
+
+                        <h3>Parça 5 — SRID ayarla (varsa)</h3>
+                        <p><em>Ne yapıyoruz?</em> CRS varsa ST_SetSRID ile uyguluyoruz.</p>
+                        <div class="code-block">
+<pre><code>if srid:
+        conn.execute(
+            f"UPDATE {PG_SCHEMA}.{TABLE} SET {RAST_COL}=ST_SetSRID({RAST_COL}, %s) "
+            f"WHERE ST_SRID({RAST_COL}) IS DISTINCT FROM %s;",
+            (srid, srid)
+        )</code></pre>
+                        </div>
+
+                        <h3>Parça 6 — Kısıtlar + indeks</h3>
+                        <p><em>Ne yapıyoruz?</em> AddRasterConstraints (varsa) ve GiST indeks oluşturuyoruz. Neden? raster_columns görünürlüğü ve sorgu performansı.</p>
+                        <div class="code-block">
+<pre><code>conn.execute("SAVEPOINT s_addrc;")
+    try:
+        conn.execute("SELECT AddRasterConstraints(%s,%s,%s);", (PG_SCHEMA, TABLE, RAST_COL))
+    except Exception:
+        conn.execute("ROLLBACK TO SAVEPOINT s_addrc;")
+
+    conn.execute(
+        f"CREATE INDEX IF NOT EXISTS {TABLE}_rast_gist "
+        f"ON {PG_SCHEMA}.{TABLE} USING GIST (ST_ConvexHull({RAST_COL}));"
+    )
+    conn.commit()</code></pre>
+                        </div>
+                    </section>
+
+                    <section class="post-section">
+                        <h2>Yöntem 3 — QGIS Arayüzü</h2>
+                        
+                        <h3>Eklentiyi kur</h3>
+                        <p>Plugins → Manage and Install Plugins… → "PostGIS Raster Import" ara → Install.</p>
+                        <img src="img/1761550999937.png" alt="PostGIS Raster Import Eklentisi" class="post-image">
+
+                        <h3>Bağlantıyı seç</h3>
+                        <p>Database → PostGIS Raster Import → "Database connection" alanından daha önce kaydettiğin PostGIS bağlantısını seç. (Yoksa QGIS Browser'da PostgreSQL altında yeni bağlantı ekle.)</p>
+                        <img src="img/1761550999600.png" alt="QGIS Database Bağlantısı" class="post-image">
+
+                        <h3>Yüklemeyi tamamla</h3>
+                        <p>"Raster layer" menüsünden dosyanı seçip hedef şema ve tablo adını belirleyerek yüklemeyi tamamla.</p>
+                    </section>
+
+                    <section class="post-section">
+                        <h2>Özet</h2>
+                        <p>Bu yazıdaki üç yaklaşımın her biri farklı ihtiyaçlara hitap ediyor:</p>
+                        <ul>
+                            <li><strong>Hız ve standart üretim hattı:</strong> raster2pgsql (CLI)</li>
+                            <li><strong>Esneklik ve otomasyon:</strong> Python</li>
+                            <li><strong>GUI ile pratik kullanım:</strong> QGIS eklentisi</li>
+                        </ul>
+                        <p>Bir sonraki yazıda, PostGIS üzerinde bu rasterlar ile yapılabilecek işlemlere değinip, performans ipuçları, tiling/overview stratejileri ve senaryolarını da ele alacağız.</p>
+                    </section>
+                </div>
+
+                <footer class="post-footer">
+                    <div class="footer-meta">
+                        <p class="footer-author"><strong>Yazar:</strong> OpenGIS Türkiye Topluluğu</p>
+                        <p class="footer-date"><strong>Güncelleme Tarihi:</strong> Ekim 2025</p>
+                    </div>
+                    <h2 id="kaynaklar">Ek Kaynaklar</h2>
+                    <ul>
+                        <li><a href="https://postgis.net/docs/using_raster_dataman.html" target="_blank" rel="noopener">PostGIS raster2pgsql dökümantasyonu</a></li>
+                        <li><a href="https://rasterio.readthedocs.io/" target="_blank" rel="noopener">rasterio belgeleri</a></li>
+                        <li><a href="https://docs.qgis.org/latest/tr/docs/user_manual/" target="_blank" rel="noopener">QGIS Kullanıcı Kılavuzu</a></li>
+                    </ul>
+                </footer>
+            </article>
+
+            
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Açık Kaynak CBS Topluluğu</h3>
+                <p>Türkiye'nin en büyük açık kaynak CBS kullanıcıları topluluğu. QGIS, PostGIS, GeoServer ve diğer açık kaynak teknolojileri öğrenin ve paylaşın.</p>
+                <p>Bu topluluk tamamen gönüllü katkılarla yürütülmektedir.</p>
+                <div class="contact-info">
+                    <a href="mailto:opengisturkiye@gmail.com">📧 opengisturkiye@gmail.com</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="../../index.html#topluluk">Topluluk</a></li>
+                    <li><a href="../../index.html#egitim">Eğitim</a></li>
+                    <li><a href="../../index.html#kaynaklar">Kaynaklar</a></li>
+                    <li><a href="../../index.html#etkinlikler">Etkinlikler</a></li>
+                    <li><a href="../../index.html#projeler">Projeler</a></li>
+                    <li><a href="../../blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Kaynaklar</h3>
+                <ul>
+                    <li><a href="https://qgis.org" target="_blank">QGIS.org</a></li>
+                    <li><a href="https://postgis.net" target="_blank">PostGIS.net</a></li>
+                    <li><a href="https://geoserver.org" target="_blank">GeoServer.org</a></li>
+                    <li><a href="https://osgeo.org" target="_blank">OSGeo.org</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Sosyal Medya &amp; İletişim</h3>
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@OpenGISTurkiye" target="_blank" class="social-link youtube">YouTube</a>
+                    <a href="https://github.com/OpenGISTurkiye" target="_blank" class="social-link github">GitHub</a>
+                    <a href="http://linkedin.com/company/OpenGISTurkiye" target="_blank" class="social-link linkedin">LinkedIn</a>
+                    <a href="https://x.com/OpenGISTurkiye" target="_blank" class="social-link twitter">X (Twitter)</a>
+                    <a href="https://discord.gg/yZvbDSeH" target="_blank" class="social-link discord">Discord</a>
+                    <a href="https://chat.whatsapp.com/ERw4FtkT1jg6gUvlUdgbNY?mode=ems_copy_t" target="_blank" class="social-link whatsapp">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Açık Kaynak CBS Kullanıcıları Topluluğu. Bu proje Creative Commons lisansı altındadır.</p>
+        </div>
+    </footer>
+</body>
+</html>
