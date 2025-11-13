@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Koordinat Sistemleri – Rehber (v4)</title>
+  <meta name="description" content="Koordinat sistemleri: tek sayfa rehber + başlık altı animasyonlar + entegre sandbox."/>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/d3@7" defer></script>
+  <script src="scripts.js" defer></script>
+
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-logo"></span> Koordinat Sistemleri – Rehber</div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button class="btn" id="themeToggle">🌓 Tema</button>
+      <a class="btn" href="#kaynaklar">🔗 Kaynaklar</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="layout">
+      <nav class="toc" id="toc">
+        <a href="#neden-crs">Neden CRS?</a>
+        <a href="#koordinat-nedir">1. Koordinat nedir?</a>
+        <a href="#elipsoid-jeoit-yukseklik">2. Elipsoid • Jeoit • Yükseklik</a>
+        <a href="#datum-nedir">3. Datum nedir?</a>
+        <a href="#donusum-turleri">4. Dönüşüm türleri ve dikkat edilecekler</a>
+        <a href="#utm-zon-secimi">5. UTM zon seçimi: zone = floor((λ + 180) / 6) + 1</a>
+  <a href="#epsg-srid-wkt-proj">6.EPSG, SRID, WKT, PROJ</a>
+        <a href="#sandbox">Sandbox</a>
+        <a href="#kaynaklar">Kaynaklar</a>
+      </nav>
+
+      <article class="content">
+        <section id="neden-crs" class="section card">
+          <div class="card-body">
+            <h1>Neden koordinat sistemi/CRS?</h1>
+            <p class="lead">Verilerin “nerede?” sorusuna aynı cevabı verebilmesi için <b>Koordinat Referans Sistemi (CRS)</b> şarttır. CRS; koordinat sistemi, datum, eksenler ve birimlerden oluşur. Farklı CRS’lerdeki veriler üst üste gelmez; ölçüler de değişir.</p>
+            <div class="anim-wrap" data-anim="projectionMorph">
+              <canvas class="anim"></canvas>
+              <div class="legend">Küre → düzlem morflaması: projeksiyon fikrinin özeti.</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="koordinat-nedir" class="section card">
+  <div class="card-body">
+    <h2>1. Koordinat nedir?</h2>
+    <p class="lead"><strong>Koordinat</strong>, Dünya üzerindeki herhangi bir noktaya verdiğimiz matematiksel adrestir.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Coğrafi koordinatlar (φ, λ)</h3>
+        <ul class="list-marked">
+          <li><strong>Enlem (latitude, φ):</strong> Ekvator 0°; kuzeye gidildikçe pozitif, güneye inildikçe negatiftir.</li>
+          <li><strong>Boylam (longitude, λ):</strong> Greenwich meridyeni 0°; doğu pozitif, batı negatiftir.</li>
+          <li><strong>Birim:</strong> Derece (°), gerektiğinde dakika (′) ve saniye (″) ile hassaslaştırılır.</li>
+        </ul>
+        <p class="legend">Örnek (Ankara): φ ≈ 39.9° N, λ ≈ 32.9° E</p>
+      </div>
+      <div class="info-card">
+        <h3>Projeksiyon koordinatları (X, Y)</h3>
+        <ul class="list-marked">
+          <li><strong>Projeksiyon düzlemi:</strong> Dünya eğrisini belirli bir yöntemle düzleme aktarır.</li>
+          <li><strong>X (Easting):</strong> Doğu-batı uzaklığı metre cinsinden ifade eder.</li>
+          <li><strong>Y (Northing):</strong> Kuzey-güney uzaklığı metre cinsinden ifade eder.</li>
+          <li><strong>Ölçü birimi:</strong> Her zaman metre (m).</li>
+        </ul>
+        <p class="legend">Örnek: X = 450&nbsp;000 m, Y = 4&nbsp;420&nbsp;000 m</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>!</strong>
+      <ul>
+        <li>Coğrafi koordinat → açı tabanlı (φ, λ).</li>
+        <li>Projeksiyon koordinatı → uzunluk tabanlı (X, Y).</li>
+      </ul>
+    </div>
+
+    <section class="viz-section">
+      <h3>Koordinat: Coğrafi (φ, λ) → Projeksiyon (X, Y)</h3>
+      <p>
+        Solda enlem-boylam (φ, λ) ile tanımlanan nokta, sağda projeksiyon düzlemi üzerinde X–Y metriğine dönüştürülüyor.
+      </p>
+
+      <div class="viz-wrapper">
+        <svg id="coord-svg" viewBox="0 0 400 200">
+         <defs>
+            <radialGradient id="earthGradient" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#7ee2ff" />
+              <stop offset="45%" stop-color="#1f86ce" />
+              <stop offset="100%" stop-color="#021128" />
+            </radialGradient>
+            <radialGradient id="earthGlow" cx="50%" cy="50%" r="72%">
+              <stop offset="0%" stop-color="#7ee2ff" stop-opacity="0.25" />
+              <stop offset="65%" stop-color="#204884" stop-opacity="0.15" />
+              <stop offset="100%" stop-color="#020a1c" stop-opacity="0" />
+            </radialGradient>
+            <clipPath id="earthClip">
+              <circle cx="100" cy="100" r="60" />
+            </clipPath>
+          </defs>
+          <g class="earth-group">
+            <circle cx="100" cy="100" r="68" class="earth-glow" />
+            <circle cx="100" cy="100" r="60" class="earth-sphere" />
+            <g class="earth-graticule" clip-path="url(#earthClip)">
+              <g class="earth-grid-back"></g>
+              <g class="earth-grid-front"></g>
+            </g>
+            <path
+              class="earth-highlight"
+              d="M58 82 Q72 54 104 46"
+            />
+          </g>
+          <text x="100" y="180" text-anchor="middle" class="label">
+            Coğrafi koordinat (φ, λ)
+          </text>
+          <rect x="230" y="40" width="140" height="120" rx="6" class="map-rect" />
+          <line x1="260" y1="40" x2="260" y2="160" class="map-grid" />
+          <line x1="290" y1="40" x2="290" y2="160" class="map-grid" />
+          <line x1="320" y1="40" x2="320" y2="160" class="map-grid" />
+          <line x1="230" y1="70" x2="370" y2="70" class="map-grid" />
+          <line x1="230" y1="100" x2="370" y2="100" class="map-grid" />
+          <line x1="230" y1="130" x2="370" y2="130" class="map-grid" />
+          <text x="300" y="180" text-anchor="middle" class="label">
+            Projeksiyon koordinatı (X, Y)
+          </text>
+          <circle id="coord-point" cx="100" cy="80" r="6" class="point" />
+        </svg>
+      </div>
+
+      <button id="coord-toggle" class="viz-button">
+        φ, λ → X, Y dönüşümünü oynat
+      </button>
+    </section>
+  </div>
+</section>
+
+<section id="elipsoid-jeoit-yukseklik" class="section card">
+  <div class="card-body">
+    <h2>2. Elipsoid • Jeoit • Yükseklik</h2>
+
+    <p class="lead">Dünya’nın şeklini ve <strong>yükseklik</strong> kavramını oturtmadan koordinatları anlayamayız.</p>
+
+    <h3>2.1. Elipsoid nedir?</h3>
+
+    <p><strong>Dünya</strong> tam küre değil; kutuplardan basık, ekvatordan şişkin “dönel elipsoid”e benzer.</p>
+    <ul class="list-marked">
+      <li><strong>Tanım:</strong> Matematiksel, düzgün ve pürüzsüz referans yüzey.</li>
+      <li><strong>Temel parametreler:</strong>
+        <ul>
+          <li>Yarı büyük eksen <strong>a</strong></li>
+          <li>Basıklık <strong>f</strong></li>
+        </ul>
+      </li>
+      <li><strong>Kullanım alanları:</strong> Koordinat tanımlamak, projeksiyon üretmek, hassas hesaplar yapmak.</li>
+      <li><strong>Yaygın örnekler:</strong> <em>GRS80</em>, <em>WGS84</em> (GPS’in referansı).</li>
+    </ul>
+
+    <h3>2.2. Jeoit nedir?</h3>
+
+    <p><strong>Jeoit</strong>, yerçekimi alanındaki dalgalanmaları da hesaba katan eşpotansiyel yüzeydir.</p>
+    <ul class="list-marked">
+      <li><strong>Düşünce:</strong> Dünya’yı suyla kapladığımızda, rüzgâr ve akıntı yokken suyun aldığı şekil.</li>
+      <li><strong>Özellik:</strong> Elipsoid kadar düzgün değil; “patates” gibi inişli çıkışlı.</li>
+      <li><strong>Hesaplanma:</strong> Gravite ölçüleri + modeller ile belirlenir.</li>
+      <li><strong>Referans rolü:</strong> <strong>Ortometrik yükseklik</strong> (deniz seviyesinden yükseklik) jeoitten ölçülür.</li>
+    </ul>
+
+    <h3>2.3. Yükseklik türleri ve h = H + N</h3>
+
+    <p>Üç temel yükseklik kavramı vardır:</p>
+    <ul class="list-marked">
+      <li><strong>Elipsoidal yükseklik (h):</strong> Noktanın elipsoide dik uzaklığı; GNSS cihazlarının verdiği ham değer.</li>
+      <li><strong>Ortometrik yükseklik (H):</strong> “Deniz seviyesinden” yükseklik; haritalarda gördüğümüz değer.</li>
+      <li><strong>Jeoit ondülasyonu (N):</strong> Elipsoid ile jeoit arasındaki fark; pozitif/negatif olabilir.</li>
+    </ul>
+    <p class="callout"><strong>Formül:</strong> <code>h = H + N</code></p>
+    <p><strong>Örnek:</strong> GPS yüksekliği <strong>h = 120.0 m</strong>, jeoit ondülasyonu <strong>N = +2.5 m</strong> ise<br>
+    → <strong>H = 117.5 m</strong> (deniz seviyesinden yükseklik).</p>
+
+    <!-- Başlık altı animasyon -->
+    <section class="viz-section">
+      <h3>Elipsoid • Jeoit • Yükseklik (h = H + N)</h3>
+      <p>
+        Bu şema, elipsoid, jeoit ve topoğrafya yüzeylerini; ayrıca elipsoidal yükseklik (h),
+        ortometrik yükseklik (H) ve jeoit ondülasyonunu (N) görselleştirir.
+      </p>
+
+      <div class="viz-wrapper">
+        <svg id="height-svg" viewBox="0 0 400 220">
+          <!-- Elipsoid (daha düzgün bir yay) -->
+          <path
+            d="M 20 170 Q 200 190 380 170"
+            class="ellipsoid-line"
+          />
+
+          <!-- Jeoit (daha dalgalı) -->
+          <path
+            d="M 20 160 Q 80 175 140 165 T 260 175 T 380 165"
+            class="geoid-line"
+          />
+
+          <!-- Topoğrafya (dağlı yüzey) -->
+          <path
+            d="M 20 150 Q 80 90 140 130 T 260 110 T 380 140"
+            class="topography-line"
+          />
+
+          <!-- Nokta (yeryüzü noktası) -->
+          <circle id="height-point" cx="210" cy="115" r="6" class="point" />
+
+          <!-- h, H, N grubu -->
+          <g id="height-group" class="height-group">
+            <!-- h: elipsoidal yükseklik (topo -> elipsoid) -->
+            <line x1="210" y1="115" x2="210" y2="185" class="h-line" marker-end="url(#arrow)" />
+            <text x="214" y="150" class="height-label">h</text>
+
+            <!-- H: ortometrik yükseklik (topo -> jeoit) -->
+            <line x1="230" y1="115" x2="230" y2="165" class="H-line" marker-end="url(#arrow)" />
+            <text x="234" y="145" class="height-label">H</text>
+
+            <!-- N: jeoit ondülasyonu (jeoit -> elipsoid) -->
+            <line x1="250" y1="165" x2="250" y2="185" class="N-line" marker-end="url(#arrow)" />
+            <text x="254" y="178" class="height-label">N</text>
+
+            <!-- Formül -->
+            <text x="200" y="210" class="formula-label">h = H + N</text>
+          </g>
+
+          <!-- Ok tanımı -->
+          <defs>
+            <marker
+              id="arrow"
+              markerWidth="6"
+              markerHeight="6"
+              refX="3"
+              refY="3"
+              orient="auto"
+            >
+              <path d="M0,0 L6,3 L0,6 z" class="arrow-head" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="controls" id="height-controls">
+        <button data-focus="topo" class="viz-button small">Topoğrafyayı vurgula</button>
+        <button data-focus="geoid" class="viz-button small">Jeoiti vurgula</button>
+        <button data-focus="ellipsoid" class="viz-button small">Elipsoidi vurgula</button>
+        <button data-focus="hhn" class="viz-button small">h, H, N’yi göster</button>
+      </div>
+
+      <p id="height-caption" class="caption">
+        Bir yüzeyi seçerek açıklamayı burada gösterebilirsin.
+      </p>
+    </section>
+  </div>
+</section>
+
+<section id="datum-nedir" class="section card">
+  <div class="card-body">
+    <h2>3. Datum nedir?</h2>
+
+    <p class="lead"><strong>Datum</strong>, elipsoidi Dünya’ya <em>nerede</em> ve <em>ne zaman</em> sabitlediğimizi söyler; yani koordinat sisteminin referans çerçevesidir.</p>
+
+    <h3>3.1. Datumun bileşenleri</h3>
+
+    <ul class="list-marked">
+      <li><strong>Uzaysal bileşen:</strong> Elipsoidin Dünya’nın kütle merkezine göre konumu, eksen yönleri (X, Y, Z) ve ölçeği.</li>
+      <li><strong>Tür:</strong> Geosentrik datumlar küresel merkeze oturur; bölgesel datumlar belirli bir ülkeye “iyi otursun” diye kaydırılabilir.</li>
+      <li><strong>Zamansal bileşen (epoch):</strong> Levha hareketleri nedeniyle koordinatlar zamanla değişir; <code>ITRF2014@2010.0</code> gibi ifadeler referans tarihini belirtir.</li>
+    </ul>
+
+    <h3>3.2. Örnek datumlar ve farkları</h3>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>WGS84</h4>
+        <ul class="list-marked">
+          <li><strong>Açılım:</strong> World Geodetic System 1984.</li>
+          <li><strong>Özellik:</strong> Elipsoidi Dünya’nın kütle merkezine oturtulmuş küresel datum.</li>
+          <li><strong>Kullanım:</strong> GPS, Google Maps ve çoğu mobil harita.</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>ITRF / ETRS89</h4>
+        <ul class="list-marked">
+          <li><strong>ITRF:</strong> Küresel jeodezik istasyonlardan gelen verilerle oluşturulan 4B (X, Y, Z + zaman) referans çerçevesi.</li>
+          <li><strong>ETRS89:</strong> Avrasya levhasına sabitlenmiş, Avrupa için ITRF’nin “stabil” uyarlaması.</li>
+          <li><strong>Avantaj:</strong> Levha hareketlerini dengeleyerek yüksek hassasiyet sağlar.</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>ED50</h4>
+        <ul class="list-marked">
+          <li><strong>Dönemi:</strong> 1950’lerde klasik ölçülerle tanımlandı; küresel merkeze tam oturmaz.</li>
+          <li><strong>Kullanım:</strong> Türkiye dâhil eski haritalar ve veriler.</li>
+          <li><strong>Sonuç:</strong> WGS84 ile karşılaştırıldığında aynı nokta onlarca metre kayabilir.</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>TUREF</h4>
+        <ul class="list-marked">
+          <li><strong>Tanım:</strong> Türkiye Ulusal Referans Çerçevesi; ITRF/ETRS uyumlu.</li>
+          <li><strong>Uyarlama:</strong> Türkiye’nin tektonik hareketlerine göre optimize edildi.</li>
+          <li><strong>Not:</strong> ED50 → TUREF dönüşümleri resmî parametrelerle yapılmalı.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>3.3. Datum farkının pratik etkisi</h3>
+
+    <p><strong>Aynı fiziksel nokta</strong> farklı datumlarda farklı koordinatlara sahiptir:</p>
+    <div class="callout">
+      <ul>
+        <li><strong>ED50:</strong> φ = 40° 00′ 00″ N, λ = 32° 00′ 00″ E</li>
+        <li><strong>WGS84:</strong> φ = 39° 59′ 52″ N, λ = 32° 00′ 08″ E</li>
+      </ul>
+      <p><strong>Yorum:</strong> Sayısal fark küçük görünür fakat 50–100 m yatay kayma yaratabilir.</p>
+    </div>
+    <ul class="list-marked">
+      <li>Projeksiyon bilmek tek başına yetmez; <strong>datum etiketini</strong> de kontrol et.</li>
+      <li>Eski ED50 verisini TUREF/WGS84’e taşırken uygun dönüşüm parametrelerini kullan.</li>
+    </ul>
+
+    <!-- Başlık altı animasyon -->
+    <section class="viz-section">
+      <h3>Datum: Aynı nokta, farklı koordinatlar</h3>
+      <p>
+        Farklı datumlar (ED50, WGS84, TUREF) aynı fiziksel nokta için farklı koordinatlar
+        üretebilir. Bu görsel, aradaki yatay kaymayı abartılı biçimde gösterir.
+      </p>
+
+      <div class="viz-wrapper">
+        <svg id="datum-svg" viewBox="0 0 400 220">
+          <!-- Harita alanı -->
+          <rect x="40" y="40" width="320" height="140" rx="10" class="map-rect" />
+
+          <!-- Basit bina şekli -->
+          <rect x="170" y="90" width="60" height="40" class="building" />
+
+          <!-- Aynı bina üzerindeki farklı datum noktaları -->
+          <circle id="pt-ed50" cx="190" cy="95" r="5" class="pt-ed50" />
+          <circle id="pt-wgs84" cx="205" cy="100" r="5" class="pt-wgs84" />
+          <circle id="pt-turef" cx="195" cy="110" r="5" class="pt-turef" />
+
+          <text x="190" y="75" class="datum-label">ED50</text>
+          <text x="215" y="95" class="datum-label">WGS84</text>
+          <text x="200" y="125" class="datum-label">TUREF</text>
+        </svg>
+      </div>
+
+      <button id="datum-toggle" class="viz-button">
+        Datum farkını abartarak göster / sıfırla
+      </button>
+
+      <p id="datum-caption" class="caption">
+        Başlangıçta fark az; butona bastığında aradaki fark abartılı gösterilir.
+      </p>
+    </section>
+  </div>
+</section>
+
+<section id="donusum-turleri" class="section card">
+  <div class="card-body">
+    <h2>4. Dönüşüm türleri ve dikkat edilecekler</h2>
+
+    <p class="lead">CBS’de veriyle çalışırken üç temel dönüşüm türüyle karşılaşırsın:</p>
+    <ul class="list-marked">
+      <li><strong>Projeksiyon değişimi:</strong> Aynı datum içinde derece ↔ metre dönüşümü (EPSG:4326 → EPSG:3857 gibi).</li>
+      <li><strong>Datum dönüşümü:</strong> Referans çerçevesi değişir; metrelerce kayma oluşabilir (ED50 ↔ TUREF gibi).</li>
+      <li><strong>Eksen &amp; birim yönetimi:</strong> Aynı CRS bile eksen sırası veya birim yorumunda sorun çıkarabilir.</li>
+    </ul>
+    <p>Şimdi her birini yakından inceleyelim.</p>
+
+    <h3>4.1. Projeksiyon değişimi: Coğrafi ↔ Projeksiyon</h3>
+
+    <h4>4.1.1. Ne demek?</h4>
+
+    <ul class="list-marked">
+      <li><strong>Coğrafi koordinatlar:</strong> Enlem (φ) ve boylam (λ) derece cinsindedir; örn. (39.9°, 32.85°).</li>
+      <li><strong>Projeksiyon koordinatları:</strong> X, Y metre cinsindedir; örn. (450 000 m, 4 420 000 m).</li>
+      <li><strong>Dönüşüm:</strong> Aynı datum içinde φ, λ değerlerini X, Y metrelerine çevirirsin.</li>
+    </ul>
+    <div class="callout">
+      <strong>Tipik dönüşümler</strong>
+      <ul>
+        <li>EPSG:4326 → EPSG:32636 (WGS84 coğrafi → WGS84 / UTM Zone 36N)</li>
+        <li>EPSG:4326 → EPSG:3857 (WGS84 coğrafi → Web Mercator)</li>
+      </ul>
+      <p>Datum değişmez; yalnızca “dünyayı düzleştirme şekli” değişir.</p>
+    </div>
+
+    <h4>4.1.2. Neden önemli?</h4>
+
+    <ul class="list-marked">
+      <li><strong>Analizler:</strong> Buffer, alan, mesafe gibi işlemler çoğunlukla metre ister.</li>
+      <li><strong>Web haritaları:</strong> Çoğu platform EPSG:3857 kullanır (Google, OSM vb.).</li>
+      <li><strong>Görsel fark:</strong> Veri farklı projeksiyonlarda yer değiştirmiş gibi görünse de coğrafi anlamı aynıdır.</li>
+      <li><strong>Metinsel sonuç:</strong> Alan ve mesafe değerleri projeksiyona göre değişebilir; özellikle 3857’de bozulma büyüktür.</li>
+    </ul>
+
+    <h4>4.1.3. Tipik hata</h4>
+
+    <ul class="list-marked">
+      <li><strong>Projeksiyon vs. datum:</strong> Sadece projeksiyon değiştirmek gerekirken datum dönüşümü yaparsan veriler onlarca metre kayar.</li>
+      <li><strong>Yanlış varsayım:</strong> ED50 verisini “sadece projeksiyon değiştiriyorum” diyerek TUREF ile birleştirmek çakışma sorunlarına yol açar.</li>
+    </ul>
+
+    <h3>4.2. Datum dönüşümü: ED50 ↔ TUREF gibi</h3>
+
+    <h4>4.2.1. Datum neydi?</h4>
+
+    <ul class="list-marked">
+      <li><strong>Tanım:</strong> Datum = Elipsoidin Dünya’ya nasıl oturtulduğu + hangi zamana göre sabitlendiği (epoch).</li>
+      <li><strong>Örnekler:</strong> ED50, WGS84, TUREF, ETRS89, ITRF aynı sayıları farklı fiziksel noktalara taşır.</li>
+      <li><strong>Önem:</strong> φ/λ değerleri datum değişince gerçek hayatta farklı konumlara karşılık gelir.</li>
+    </ul>
+
+    <h4>4.2.2. ED50 ↔ TUREF örneği</h4>
+
+    <ul class="list-marked">
+      <li><strong>ED50:</strong> Eski Avrupa datumu; Türkiye’nin eski haritalarında yaygın.</li>
+      <li><strong>TUREF:</strong> Türkiye Ulusal Referans Çerçevesi; modern GNSS ve resmi çalışmaların temeli.</li>
+      <li><strong>Aynı nokta:</strong> ED50’de (φ₁, λ₁), TUREF’te (φ₂, λ₂); aradaki fark bölgeye göre 1–100 m olabilir.</li>
+      <li><strong>Sonuç:</strong> “ED50 → TUREF” demek sadece projeksiyonu değil, referans çerçevesini de değiştirmektir.</li>
+    </ul>
+
+    <h4>4.2.3. Dönüşüm türleri (kavramsal)</h4>
+
+    <p>Datum dönüşümünde dört ana yaklaşım bulunur:</p>
+    <ul class="list-marked">
+      <li><strong>Hiç dönüşüm yapmamak:</strong> “φ, λ zaten aynı” demek veriyi kaydırır.</li>
+      <li><strong>3-parametre (dx, dy, dz):</strong> Basit global öteleme; hassasiyet sınırlıdır.</li>
+      <li><strong>7-parametre Helmert:</strong> Öteleme + üç dönme + ölçek; ülke geneli için tek set her zaman yeterli olmayabilir.</li>
+      <li><strong>Grid tabanlı (önerilen):</strong> .gsb gibi gridler her noktada lokal düzeltme uygular; mühendislik işler için ideal.</li>
+    </ul>
+    <p><strong>Resmî parametre/grid</strong> dediğimizde Harita Genel Müdürlüğü gibi kurumların yayınladığı bu veri setleri kastedilir.</p>
+
+    <h4>4.2.4. Tipik riskler</h4>
+
+    <ul class="list-marked">
+      <li><strong>Çifte dönüşüm:</strong> ED50 → TUREF yaptıktan sonra veriyi yeniden dönüştürmek.</li>
+      <li><strong>Parametre karmaşası:</strong> Farklı kurumların yayınladığı parametre setlerini karıştırmak.</li>
+      <li><strong>Yanlış eşitleme:</strong> “Projeksiyon = Datum” sanmak (ör. “UTM = WGS84”).</li>
+    </ul>
+
+    <h3>4.3. Eksen ve birim: EPSG:4326’da neler oluyor?</h3>
+
+    <h4>4.3.1. Eksen sırası (axis order) problemi</h4>
+
+    <ul class="list-marked">
+      <li><strong>Resmî tanım:</strong> EPSG:4326 eksenleri (Latitude, Longitude) yani (y, x) sırasındadır.</li>
+      <li><strong>Pratik uygulama:</strong> PostGIS, Leaflet, OpenLayers gibi araçlar çoğunlukla (lon, lat) bekler.</li>
+      <li><strong>Servis farkı:</strong> Bazı WFS/WMS servisleri resmî north/east sırasını izler, bazıları east/north kullanır.</li>
+      <li><strong>Sonuç:</strong> Aynı “4326” etiketi altında iki farklı eksen sırası dolaşabilir; bu büyük karışıklık kaynağıdır.</li>
+    </ul>
+
+    <h4>4.3.2. Yanlış eksen → neler olur?</h4>
+
+    <ul class="list-marked">
+      <li><strong>Örnek:</strong> Doğru koordinat (lon, lat) = (32.85, 39.9) Ankara’yı gösterir.</li>
+      <li><strong>Hata:</strong> Bunu (lat, lon) sanıp (39.9, 32.85) yazarsan nokta farklı ülkeye düşebilir.</li>
+      <li><strong>Kontrol listesi:</strong> API dönen alan adlarını (lng/lat vs.) mutlaka doğrula.</li>
+      <li><strong>Kural:</strong> CRS etiketi EPSG:4326 olsa bile veri paketindeki eksen sırasını kontrol etmeden güvenme.</li>
+    </ul>
+
+    <h4>4.3.3. Birim problemi</h4>
+
+    <ul class="list-marked">
+      <li><strong>Birimler:</strong> EPSG:4326 → derece; EPSG:3857, 326xx, 5254 → metre.</li>
+      <li><strong>Yaygın hata:</strong> Derece cinsinden geometrilere ST_Buffer(geom, 1000) uygulayıp sonucu metre sanmak.</li>
+      <li><strong>Başka hata:</strong> EPSG:3857’de ölçülen alanları “tam doğru metre²” kabul etmek; yüksek enlemlerde sapma büyür.</li>
+    </ul>
+  </div>
+</section>
+
+
+<section id="utm-zon-secimi" class="section card">
+  <div class="card-body">
+    <h2>5. UTM zon seçimi</h2>
+
+    <p class="lead"><strong>UTM (Universal Transverse Mercator)</strong> boylamı 6° dilimlere bölerek her dilimde yerel bir düzlem oluşturur. Amaç, metre cinsinden çalışılabilecek dar şeritlerde bozulmayı minimumda tutmaktır.</p>
+
+    <h3>5.1. UTM sisteminin ana kuralları</h3>
+    <ul class="list-marked">
+      <li><strong>Dünya 60 zona ayrılır:</strong> Her zon 6° boylam genişliğindedir.</li>
+      <li><strong>Numaralandırma 1’den 60’a gider:</strong> 180°W’den başlanır ve doğuya doğru artar.</li>
+      <li><strong>Boylam (λ) derece cinsindedir:</strong> Batı negatif, Doğu pozitif kabul edilir.</li>
+    </ul>
+
+    <div class="formula-block">
+      <span class="formula-label">Hızlı hesap:</span>
+      <code>zone = floor((λ + 180) / 6) + 1</code>
+    </div>
+
+    <h3>5.2. Örnek hesaplama</h3>
+    <ul class="list-steps">
+      <li>λ = 32°E</li>
+      <li>(λ + 180) / 6 = (32 + 180) / 6 = 212 / 6 ≈ 35.3</li>
+      <li>floor(35.3) = 35 → zone = 35 + 1 = <strong>36</strong></li>
+    </ul>
+
+    <div class="callout">
+      <strong>Türkiye özeti</strong>
+      <ul>
+        <li>26°E – 32°E → Zone 35</li>
+        <li>32°E – 38°E → Zone 36</li>
+        <li>38°E – 44°E → Zone 37</li>
+      </ul>
+      <p>Yani Türkiye üç UTM zonuna yayılıyor: <strong>35 • 36 • 37</strong>.</p>
+    </div>
+
+    <div class="utm-demo">
+      <div class="utm-map-shell">
+        <canvas id="utmCanvas" class="utm-canvas" role="img" aria-label="UTM zonlarını ve dünya haritasını gösteren etkileşimli görsel"></canvas>
+        <div class="utm-overlay" aria-live="polite">
+          <div class="utm-pill">
+            <span class="utm-pill-label">Seçili zon</span>
+            <span class="utm-pill-value" id="utmSelectedZone">36N</span>
+          </div>
+          <div class="utm-coords">
+            <div class="utm-coord">
+              <span class="utm-stat-label">Boylam</span>
+              <span class="utm-stat-value" id="utmSelectedLon">32.0°E</span>
+            </div>
+            <div class="utm-coord">
+              <span class="utm-stat-label">Enlem</span>
+              <span class="utm-stat-value" id="utmSelectedLat">39.0°N</span>
+            </div>
+          </div>
+          <div class="utm-hover">
+            <span class="utm-stat-label">Anlık zon</span>
+            <span class="utm-stat-value" id="utmHoverZone">–</span>
+          </div>
+          <p class="utm-hint">Çizgiler boyunca gez, tıkla: zonu kilitlersin. Aynı zon üzerinde tekrar tıklayarak kilidi aç.</p>
+        </div>
+      </div>
+      <p class="legend">UTM zonları 6° boylam şeritleri olarak gösterildi. Türkiye’yi kapsayan 35 • 36 • 37 zonları mavi tonlarla, seçilen zon ise altın parıltı ile vurgulanır.</p>
+    </div>
+  </div>
+</section>
+
+
+<section id="epsg-srid-wkt-proj" class="section card">
+  <div class="card-body">
+    <h2>6. EPSG, SRID, WKT, PROJ</h2>
+
+    <p class="lead">EPSG, SRID, WKT ve PROJ aynı CRS ekosisteminin farklı rolleri:</p>
+    <ul class="list-marked">
+      <li><strong>EPSG kodu:</strong> Global otoritenin verdiği kimlik numarası.</li>
+      <li><strong>SRID:</strong> Veritabanındaki kimlik sütunu.</li>
+      <li><strong>WKT:</strong> CRS’in detaylı yazılı tarifi.</li>
+      <li><strong>PROJ dizgesi:</strong> Yazılımlar arası dönüşümü yapan komut dizisi.</li>
+    </ul>
+
+    <h3>6.1. EPSG &amp; SRID – “CRS’in kimlik numarası”</h3>
+
+    <h4>6.1.1. EPSG nedir?</h4>
+
+    <ul class="list-marked">
+      <li><strong>Kaynak:</strong> EPSG/IOGP jeodezik parametre veri setini yönetir.</li>
+      <li><strong>Amaç:</strong> Her CRS’e benzersiz bir numara verilir.</li>
+      <li><strong>Örnek kodlar:</strong>
+        <ul>
+          <li>EPSG:4326 → WGS 84 coğrafi (lat/lon, derece)</li>
+          <li>EPSG:3857 → Web Mercator (metre, web haritaları)</li>
+          <li>EPSG:32636 → WGS 84 / UTM zone 36N (metre)</li>
+        </ul>
+      </li>
+      <li><strong>Kapsam:</strong> Elipsoid, datum, projeksiyon, eksen yönleri ve birim bilgilerini işaret eder.</li>
+      <li><strong>Sonuç:</strong> “4326” dediğinde “WGS84 coğrafi CRS (lat/lon, derece)” demiş olursun.</li>
+    </ul>
+
+    <h4>6.1.2. SRID nedir?</h4>
+
+    <ul class="list-marked">
+      <li><strong>SRID (Spatial Reference ID):</strong> Veritabanı tarafındaki CRS kimliğidir.</li>
+      <li><strong>Genel kural:</strong> SRID değeri çoğunlukla EPSG koduyla aynıdır (SRID 4326 → EPSG:4326).</li>
+      <li><strong>Veri tablosu:</strong> <code>spatial_ref_sys</code> tablosunda SRID primary key olarak tutulur; satırda WKT ve otorite bilgisi yer alır.</li>
+      <li><strong>Fonksiyonlar:</strong> <code>ST_SRID(geom)</code> etiketi okur, <code>ST_SetSRID(geom, 4326)</code> etiketi değiştirir, <code>ST_Transform(geom, 3857)</code> ise gerçek dönüşümü yapar.</li>
+      <li><strong>Özet:</strong> EPSG global koddur; SRID veritabanındaki eşleşen ID’dir.</li>
+    </ul>
+    <div class="callout">
+      <strong>Dikkat!</strong>
+      <ul>
+        <li>Yanlış SRID ile kaydedilen geometri veriyi yanlış ülkeye ışınlayabilir.</li>
+        <li><code>ST_SetSRID</code> yalnızca etiketi değiştirir; koordinatları dönüştürmek için mutlaka <code>ST_Transform</code> kullan.</li>
+      </ul>
+    </div>
+
+    <h3>6.2. WKT / WKT2 – “CRS’in yazılı tarifi”</h3>
+
+    <h4>6.2.1. WKT nedir?</h4>
+
+    <p><strong>WKT (Well-Known Text)</strong>, CRS veya dönüşümlerin hem insan hem makine tarafından okunabilir metin formatıdır.</p>
+    <ul class="list-marked">
+      <li><strong>Amaç:</strong> CRS bileşenlerini (datum, eksen, birim) açıkça tarif etmek.</li>
+      <li><strong>Kullanım:</strong> Yazılımlar arası CRS paylaşımında ortak dil sağlar.</li>
+      <li><strong>Örnek:</strong> Aşağıdaki WKT2 kesiti WGS84 coğrafi CRS’ini gösterir.</li>
+    </ul>
+
+    <pre><code>GEOGCRS["WGS 84",
+  DATUM["World Geodetic System 1984", ...],
+  CS[ellipsoidal,2],
+  AXIS["latitude", north],
+  AXIS["longitude", east],
+  UNIT["degree", 0.0174532925199433]
+]</code></pre>
+
+    <ul class="list-marked">
+      <li><strong>CRS tipi:</strong> GEOGCRS (coğrafi).</li>
+      <li><strong>Datum:</strong> WGS84.</li>
+      <li><strong>Eksenler:</strong> Latitude → north, Longitude → east.</li>
+      <li><strong>Birim:</strong> Degree; elipsoid ve prime meridyen ayrıntıları dahil.</li>
+      <li><strong>Standart:</strong> OGC tarafından tanımlanan ve ISO 19162 ile güncellenen format.</li>
+    </ul>
+
+    <h4>6.2.2. WKT1 vs WKT2</h4>
+
+    <ul class="list-marked">
+      <li><strong>WKT1:</strong> Eski spesifikasyon; satıcı eklemeleri nedeniyle farklı yorumlar (“WKT1 (ESRI)”, “OGC WKT1” gibi) bulunur.</li>
+      <li><strong>WKT2 (WKT-CRS):</strong> ISO 19162:2015/2019 ile geldi; CRS ve dönüşümleri tutarlı, eksiksiz ve eksen/birim/datum açısından net biçimde tanımlar.</li>
+      <li><strong>Ekosistem:</strong> GDAL 3 ve PROJ 6+ sonrası WKT2 desteği yaygınlaştı.</li>
+    </ul>
+
+    <h3>6.3. PROJ – “Asıl dönüşümü yapan motor”</h3>
+
+    <h4>6.3.1. PROJ nedir?</h4>
+
+    <ul class="list-marked">
+      <li><strong>Tanım:</strong> PROJ (eski PROJ.4) CRS’ler arasında koordinat dönüştüren açık kaynak kütüphanedir.</li>
+      <li><strong>Girdi:</strong> Kaynak CRS (EPSG/WKT/PROJ string), hedef CRS ve dönüştürülecek koordinatlar.</li>
+      <li><strong>Çıktı:</strong> Yeni CRS’e dönüştürülmüş koordinatlar.</li>
+      <li><strong>Kullananlar:</strong> GDAL/OGR araçları, QGIS, PostGIS ve pek çok GIS yazılımı.</li>
+      <li><strong>Bağımlılık:</strong> GDAL 3.0 ile birlikte PROJ ≥6 zorunlu hale geldi.</li>
+    </ul>
+
+    <h4>6.3.2. Eski PROJ.4 string’ler vs yeni PROJ pipeline</h4>
+
+    <ul class="list-marked">
+      <li><strong>Eski yöntem:</strong> Kısa PROJ.4 string’leriyle çalışılırdı:</li>
+    </ul>
+
+    <pre><code>+proj=utm +zone=36 +datum=WGS84 +units=m +no_defs</code></pre>
+
+    <ul class="list-marked">
+      <li><strong>Yeni yaklaşım (PROJ 6+):</strong> Pipeline konsepti sayesinde ardışık adımlar tanımlanır.</li>
+      <li><strong>Avantaj:</strong> Datum dönüşümü + projeksiyon + grid düzeltme gibi işlemleri tek satırda birleştirebilirsin.</li>
+    </ul>
+  </div>
+</section>
+
+
+
+        <!-- === SANDBOX === -->
+        <section id="sandbox" class="section card">
+          <div class="card-body">
+            <h2>Sandbox (Deneme Alanı)</h2>
+            <p class="lead">Projeksiyon değiştir, ızgarayı ve Tissot’u aç/kapat, Türkiye çizgilerini bindir. Kanvasa tıkla: Lat/Lon ve UTM zonu/bandı gör.</p>
+            <div class="grid-2">
+              <div class="card"><div class="card-body">
+                <div style="position:relative;">
+                  <canvas id="stage" aria-label="Sandbox kanvası"></canvas>
+                  <div class="stage-overlay">
+                    <span class="tag" id="cursorLabel">Lat, Lon: –</span>
+                    <span class="tag" id="utmLabel">UTM: –</span>
+                  </div>
+                </div>
+              </div></div>
+              <div class="card"><div class="card-body">
+                <h3>Kontroller</h3>
+                <div class="controls">
+                  <div class="control">
+                    <label for="projSelect">Projeksiyon</label>
+                    <select id="projSelect">
+                      <option>Mercator</option>
+                      <option>Transverse Mercator</option>
+                      <option>Conic Conformal</option>
+                      <option>Conic Equal Area</option>
+                      <option>Azimuthal Equal Area</option>
+                      <option>Orthographic</option>
+                      <option>Equirectangular</option>
+                    </select>
+                  </div>
+                  <div class="control">
+                    <label for="scaleRange">Ölçek (yakınlaştır)</label>
+                    <input id="scaleRange" type="range" min="0.6" max="2.2" step="0.05" value="1.2" />
+                  </div>
+                  <div class="control">
+                    <label for="gratStep">Izgara yoğunluğu (°)</label>
+                    <input id="gratStep" type="range" min="5" max="30" step="5" value="15" />
+                  </div>
+                  <div class="control">
+                    <label for="tissotRadius">Tissot yarıçapı (°)</label>
+                    <input id="tissotRadius" type="range" min="0.5" max="10" step="0.5" value="3" />
+                  </div>
+                  <div class="control switch">
+                    <input id="showGraticule" type="checkbox" checked />
+                    <label for="showGraticule">Izgara çizgileri</label>
+                  </div>
+                  <div class="control switch">
+                    <input id="showTissot" type="checkbox" checked />
+                    <label for="showTissot">Tissot indikatris</label>
+                  </div>
+                  <div class="control switch">
+                    <input id="showTurkeyLines" type="checkbox" />
+                    <label for="showTurkeyLines">Türkiye TM6/UTM çizgileri</label>
+                  </div>
+                  <div style="display:flex; gap:8px;">
+                    <button class="btn" id="recenter">Ortala</button>
+                    <button class="btn" id="reset">Sıfırla</button>
+                  </div>
+                </div>
+              </div></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="kaynaklar" class="section card">
+          <div class="card-body">
+            <h2>Kaynaklar</h2>
+            <ul class="src-list">
+              <li>EPSG Registry — <a href="https://epsg.org" target="_blank" rel="noopener">epsg.org</a>, pratik arama: <a href="https://epsg.io" target="_blank" rel="noopener">epsg.io</a></li>
+              <li>OGC WKT2 Standardı — <a href="https://www.ogc.org/standards/wkt-crs" target="_blank" rel="noopener">ogc.org/standards/wkt-crs</a></li>
+              <li>PROJ — <a href="https://proj.org" target="_blank" rel="noopener">proj.org</a></li>
+              <li>GDAL CRS ve eksen sırası — <a href="https://gdal.org/user/ogr_coordinate_reference_systems.html" target="_blank" rel="noopener">gdal.org … coordinate_reference_systems</a></li>
+              <li>PostGIS Kılavuzu — <a href="https://postgis.net/documentation/" target="_blank" rel="noopener">postgis.net/documentation</a></li>
+              <li>TUSAGA‑Aktif (CORS‑TR) — <a href="https://www.tusaga-aktif.gov.tr" target="_blank" rel="noopener">tusaga-aktif.gov.tr</a></li>
+              <li>Harita Genel Müdürlüğü — <a href="https://hgm.gov.tr" target="_blank" rel="noopener">hgm.gov.tr</a></li>
+            </ul>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+
+</body>
+</html>

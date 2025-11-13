@@ -1,0 +1,143 @@
+PostGIS Raster İçeri Aktarma Rehberi: 3 Yöntem (CLI/Python/QGIS)
+
+
+Rasterı neden PostGIS’e alıyoruz?
+
+Sunucu taraflı analiz (ST_SummaryStats, reclass, kesişimler)
+Harita servislerine tek kaynaktan veri
+Veri yönetimi, yedekleme, erişim denetimi
+
+Hangi yolu seçmeli?
+
+En hızlı/standart: raster2pgsql (CLI)
+En esnek/otomasyona uygun: Python (rasterio + psycopg)
+GUI ile pratik: QGIS 
+
+Örnek Veri: alos4326.tif
+hedef database / tablo: gisdb / public.alos (kendi yolunu/tablonu değiştir)Yöntem 1 — raster2pgsql (CLI)
+Ne yapar?
+Veriyi pipe ile doğrudan psql’nin standart girdisine yönlendiriyoruz. psql, standart girdiden (STDIN) komut alabilir.
+
+GeoTIFF (ve diğer GDAL formatları) → SQL üretir → PostGIS’e döşemeli (tile) raster tablosu olarak yazar; indeks/kısıt/overview oluşturabilir.
+
+Örnek (Windows)
+
+raster2pgsql -s 4326 -I -C -M -t 256x256 -l 2,4,8 "C:\Users\Desktop\gisData\alos4326.tif" public.alos | psql -h localhost -p 5432 -U postgres -d gisdb
+Örnek (Linux/macOS)
+
+ raster2pgsql -s 4326 -I -C -M -t 256x256 -l 2,4,8 "/home/gisData/alos4326.tif" public.alos | psql -h localhost -p 5432 -U postgres -d gisdb
+Komut Parametreleri
+s — SRID ata/denetle : Çıkış rasterına SRID atar. Kaynakta SRID varsa çoğu kez algılanır; yine de yanılma riskine karşı açıkça verilebilir.
+-t — Tile : Rasterı parçalara (tile) böler; satır başına bir karolu raster kaydı üretilir. WIDTHxHEIGHT biçimindedir; Büyük veride okuma/çizim performansını ciddi artırır. 128–256 px yaygın tercihlerdir. Çok büyük karolarda okuma maliyeti artar; aşırı küçükte satır sayısı şişer.
+-I — GiST mekânsal indeks: Raster sütunu için GiST indeks oluşturur (uygulamada ST_ConvexHull(rast) temellidir); mekânsal sorgularda hız kazandırır.
+-C — Constraints / Kısıtlar : Tabloya CHECK kısıtları yazar (SRID, piksel boyutu, blocksize, bant tipi vb.) ve raster_columns/raster_overviews kataloglarında düzgün görünmesini sağlar.
+-M — Yükleme sonrası VACUUM ANALYZE : Yükleme bitince tabloya VACUUM ANALYZE çalıştırır; sorgu planlayıcısı için istatistik üretir. Büyük yüklemeler sonrası performansa doğrudan katkı sağlar.
+-l 2,4,8 — Overview tabloları : 2×, 4×, 8× ölçekli overview’ler üretir; düşük zoom’larda görüntülemeyi hızlandırır. Sonradan da ST_CreateOverview ile üretilebilir; raster_overviews kataloğuna kaydedilir.
+
+Yöntem 2 — Python
+Gerekli kütüphaneler: rasterio, psycopg (opsiyonel: python-dotenv)
+
+Ne yapar?
+GeoTIFF’i bayt olarak oku → ST_FromGDALRaster(bytea) ile PostGIS tarafında raster’a çevir → SRID/indeks/kısıtları uygula. (Tek tablo / tek sütun rast)
+
+Akış
+GeoTIFF’i aç
+Metadata/SRID al
+Band verisini (aslında tüm TIFF baytlarını) oku
+Uygun biçime getir (bytea)
+PostGIS’e yaz (INSERT ... ST_FromGDALRaster(%s))
+İndeks/kısıt ekle (GiST, AddRasterConstraints)
+
+Parça 1 — Kütüphaneler ve yapılandırma
+Ne yapıyoruz? Ortam değişkenlerinden bağlantı alıyoruz; dosya yolunu/tabloları tek yerden yönetiyoruz.
+
+`import os, psycopg, rasterio
+from dotenv import load_dotenv
+load_dotenv()
+
+# (kendi veritabanına uyarla)
+PG_HOST=os.getenv("PGHOST","localhost"); PG_PORT=os.getenv("PGPORT","5432")
+PG_DB=os.getenv("PGDATABASE","gisdb");   PG_USER=os.getenv("PGUSER","postgres")
+PG_PASS=os.getenv("PGPASSWORD");         PG_SCHEMA=os.getenv("PGSCHEMA","public")
+
+SRC_PATH=r"C:\Users\Desktop\gisData\alos4326.tif"  # (kendi yolunu ver)
+TABLE="alos_simple"; RAST_COL="rast"
+Parça 2 — GeoTIFF’i oku, SRID’i tespit et
+Ne yapıyoruz? Dosyayı bayt olarak alıyoruz; rasterio ile CRS→EPSG çözüyoruz. Neden? ST_FromGDALRaster bytea ister; SRID set’i gerekebilir.
+
+with open(SRC_PATH, "rb") as f:
+    tif_bytes = f.read()
+with rasterio.open(SRC_PATH) as src:
+    srid = src.crs.to_epsg() if src.crs else None
+Parça 3 — Bağlantı ve raster tipi kontrolü
+Ne yapıyoruz? postgis_raster etkin mi bakıyoruz. Neden? Erken ve anlamlı hata için.
+
+conn_str=f"host={PG_HOST} port={PG_PORT} dbname={PG_DB} user={PG_USER} password={PG_PASS}"
+with psycopg.connect(conn_str) as conn:
+    has_raster = conn.execute(
+        "SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname='raster');"
+    ).fetchone()[0]
+    if not has_raster:
+        raise RuntimeError("postgis_raster etkin değil.")
+
+    conn.execute(f"SET search_path TO {PG_SCHEMA}, public, pg_catalog;")
+Parça 4 — Tabloyu oluştur ve veriyi yaz
+Ne yapıyoruz? Raster sütunu olan tabloyu açıyoruz; bytea → raster dönüşümünü DB’de yapıyoruz.
+
+ conn.execute(f"""
+        CREATE TABLE IF NOT EXISTS {PG_SCHEMA}.{TABLE}(
+            id bigserial PRIMARY KEY,
+            {RAST_COL} raster
+        );
+    """)
+    conn.execute(
+        f"INSERT INTO {PG_SCHEMA}.{TABLE}({RAST_COL}) VALUES (ST_FromGDALRaster(%s));",
+        (psycopg.Binary(tif_bytes),)
+    )
+Parça 5 — SRID ayarla (varsa)
+Ne yapıyoruz? CRS varsa ST_SetSRID ile uyguluyoruz.
+
+`    if srid:
+        conn.execute(
+            f"UPDATE {PG_SCHEMA}.{TABLE} SET {RAST_COL}=ST_SetSRID({RAST_COL}, %s) "
+            f"WHERE ST_SRID({RAST_COL}) IS DISTINCT FROM %s;",
+            (srid, srid)
+        )
+Parça 6 — Kısıtlar + indeks
+Ne yapıyoruz? AddRasterConstraints (varsa) ve GiST indeks oluşturuyoruz. Neden? raster_columns görünürlüğü ve sorgu performansı.
+
+`    conn.execute("SAVEPOINT s_addrc;")
+    try:
+        conn.execute("SELECT AddRasterConstraints(%s,%s,%s);", (PG_SCHEMA, TABLE, RAST_COL))
+    except Exception:
+        conn.execute("ROLLBACK TO SAVEPOINT s_addrc;")
+
+    conn.execute(
+        f"CREATE INDEX IF NOT EXISTS {TABLE}_rast_gist "
+        f"ON {PG_SCHEMA}.{TABLE} USING GIST (ST_ConvexHull({RAST_COL}));"
+    )
+    conn.commit()
+*** Tam çalışan Python kodu (tek parça) 
+
+Yöntem 3 — QGIS Arayüzü
+Eklentiyi kur
+ Plugins → Manage and Install Plugins… → “PostGIS Raster Import” ara → Install.
+
+Makale içeriği
+Bağlantıyı seç
+Database → PostGIS Raster Import → “Database connection” alanından daha önce kaydettiğin PostGIS bağlantısını seç. (Yoksa QGIS Browser’da PostgreSQL altında yeni bağlantı ekle.)
+
+Makale içeriği
+“Raster layer” menüsünden dosyanı seçip hedef şema ve tablo adını belirleyerek yüklemeyi tamamla.
+
+Bu yazıdaki üç yaklaşımın her biri farklı ihtiyaçlara hitap ediyor:
+
+Hız ve standart üretim hattı: raster2pgsql (CLI)
+Esneklik ve otomasyon: Python 
+GUI ile pratik kullanım: QGIS eklentisi
+
+Bir sonraki yazıda, PostGIS üzerinde bu rasterlar ile yapılabilecek işlemlere değinip, performans ipuçları, tiling/overview stratejileri ve senaryolarını da ele alacağız.
+
+Bir sonraki yazıda görüşmek üzere
+
+Kendinize iyi bakın, bilgiyle ve keyifle kalın… 
